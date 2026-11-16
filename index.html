@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MozAnúncios - Todo Moçambique</title>
+<style>
+body{font-family:Arial;margin:0;background:#f4f4f4;color:#222}
+body.dark{background:#111;color:#fff}
+header{background:#008751;color:#fff;padding:15px;text-align:center;position:sticky;top:0;z-index:10}
+header h1{margin:0}header p{margin:5px 0}
+.container{max-width:800px;margin:auto;padding:10px}
+.card{background:#fff;padding:12px;border-radius:12px;margin:10px 0;box-shadow:0 2px 5px rgba(0,0,0,.1)}
+body.dark .card{background:#222;color:#fff}
+input,select,textarea{width:100%;padding:10px;margin:6px 0;border:1px solid #ccc;border-radius:8px;box-sizing:border-box}
+button{padding:11px 14px;border:0;border-radius:10px;background:#008751;color:#fff;font-weight:bold;cursor:pointer;margin:4px 2px;width:100%}
+button.red{background:#dc3545}button.green{background:#25D366}button.yellow{background:#f0ad00;color:#000}button.grey{background:#666}
+img{width:100%;border-radius:10px;max-height:300px;object-fit:cover}
+.badge{display:inline-block;padding:3px 8px;border-radius:20px;font-size:12px;background:#008751;color:#fff}
+.badge-red{background:#dc3545}
+footer{background:#222;color:#fff;text-align:center;padding:20px;margin-top:20px}
+.small{font-size:12px;color:#777}body.dark .small{color:#aaa}
+#bossBtn{font-size:10px;color:#333;cursor:pointer;opacity:.5}
+body.dark #bossBtn{color:#777}
+.topbar{display:flex;gap:6px}
+</style>
+</head>
+<body>
+<header>
+<h1>🇲🇿 MozAnúncios</h1>
+<p>Compra, Vende, Emprego e Ajuda. Para todo Moçambique.</p>
+<div class="topbar"><button onclick="toggleDark()">🌙 / ☀️ Modo Noite</button><button onclick="mostrarPainelVendedor()">👤 Meu Painel</button></div>
+<p id="contador">A ligar ao servidor...</p>
+<p id="status" style="font-size:12px">⏳ A ligar...</p>
+</header>
+
+<div class="container">
+<input id="pesquisa" placeholder="🔍 Pesquisar: iPhone, emprego, Matola..." oninput="mostrarFeed()">
+<select id="filtro" onchange="mostrarFeed()">
+<option value="">Todas as categorias</option>
+<option value="Venda">Venda e Compra</option>
+<option value="Empregos">Vagas de Emprego</option>
+<option value="Procura-se">Procura-se</option>
+</select>
+<select id="filtroProvincia" onchange="mostrarFeed()">
+<option value="">Todas as províncias</option>
+<option>Maputo</option><option>Matola</option><option>Gaza</option><option>Inhambane</option><option>Sofala - Beira</option><option>Manica</option><option>Tete</option><option>Zambézia</option><option>Nampula</option><option>Cabo Delgado</option><option>Niassa</option>
+</select>
+
+<div class="card">
+<h2>📝 Publicar Grátis - Sozinho, sem esperar</h2>
+<select id="categoria" onchange="mostrarPerguntas()">
+<option value="Venda">🛒 Venda e Compra</option>
+<option value="Empregos">💼 Vagas de Emprego</option>
+<option value="Procura-se">🔍 Procura-se - Pessoa Desaparecida</option>
+</select>
+
+<div id="campoCategoriaVenda">
+<select id="subCategoria">
+<option value="">Escolhe a categoria do que vendes</option>
+<option>📱 Telefones / Eletrónicos</option><option>🚗 Carros / Motas</option><option>🏠 Casas / Quartos / Terrenos</option><option>👗 Roupas / Sapatos</option><option>🛋️ Móveis / Casa</option><option>💻 Computadores</option><option>🐶 Animais</option><option>🍔 Comida / Negócios</option><option>🔧 Serviços</option><option>📦 Outros</option>
+</select>
+</div>
+
+<input id="titulo" placeholder="O que vendes? Ex: iPhone 11">
+<input id="preco" placeholder="Preço em MT - Ex: 15000">
+<input id="local" placeholder="Local / Província - Ex: Matola, Beira">
+<input id="nome" placeholder="Teu nome">
+<input id="whatsapp" placeholder="Teu WhatsApp - Ex: 84 123 4567">
+<textarea id="descricao" placeholder="Detalhes..."></textarea>
+<label>Foto (obrigatória para Procura-se):</label>
+<input id="foto" type="file" accept="image/*">
+<input id="codigoSecreto" placeholder="Cria o teu código secreto para apagar depois - Ex: A12B">
+
+<div id="perguntasEmprego" style="display:none;background:#e8f5e9;padding:10px;border-radius:10px">
+<h3>💼 Vaga de Emprego</h3>
+<input id="empresa" placeholder="Nome da empresa">
+<input id="salario" placeholder="Salário - Ex: 8000 MT">
+<input id="tipoVaga" placeholder="Tipo: Tempo inteiro / Part-time">
+</div>
+
+<div id="perguntasProcuraSe" style="display:none;background:#fdecea;padding:10px;border-radius:10px;border:1px solid #dc3545">
+<h3 style="color:#dc3545">🔍 Procura-se - Preenche tudo</h3>
+<input id="nomeDesaparecido" placeholder="Nome completo da pessoa desaparecida">
+<input id="idadeDesaparecido" placeholder="Idade - Ex: 14 anos">
+<select id="sexoDesaparecido"><option value="">Sexo</option><option>Feminino</option><option>Masculino</option></select>
+<input id="ultimoLocal" placeholder="Onde foi visto/a pela última vez? Ex: Matola, Nkobe">
+<input id="dataDesapareceu" type="date">
+<input id="roupa" placeholder="Que roupa vestia?">
+<input id="sinais" placeholder="Sinais especiais - cicatriz, tatuagem...">
+<textarea id="contatoFamilia" placeholder="Contacto da família - Ex: 84 123 4567 - Mãe Maria"></textarea>
+<p class="small">⚠️ Foto obrigatória. Não publiques sem autorização da família.</p>
+</div>
+
+<button onclick="publicarAnuncio()">✅ PUBLICAR AGORA - Todo mundo vai ver</button>
+<p class="small">⚠️ Não envies dinheiro antes de ver o produto. Encontra-te num lugar público.</p>
+</div>
+
+<div class="card" style="text-align:center;background:#fff3cd">
+<h2>📢 Empresas - Publicidade e Destaques</h2>
+<p>Queres que o teu negócio apareça em destaque para todo Moçambique?</p>
+<button class="green" onclick="window.open('https://wa.me/258833715054?text=Quero publicidade e destaques','_blank')">💬 QUERO PUBLICIDADE E DESTAQUES</button>
+</div>
+
+<h2>📋 Anúncios - Todo Moçambique vê</h2>
+<div id="feed"></div>
+
+<div class="card">
+<h2>Sobre Nós</h2><p>MozAnúncios é para ajudar moçambicanos a comprar, vender, arranjar emprego e encontrar pessoas desaparecidas. Grátis, sem cadastro.</p>
+<h2>Como Funciona</h2><p>1. Escolhe categoria 2. Preenche 3. Publica sozinho 4. Todo mundo vê. Para Vagas e Procura-se, também vai uma cópia para o WhatsApp do administrador.</p>
+<h2>Regras</h2><p>Não pode: burla, armas, drogas, pornografia, ódio. Quem violar é apagado e bloqueado.</p>
+<h2>Contacto</h2><p>WhatsApp: 83 371 5054 | M-Mola: 87 419 3775</p>
+</div>
+</div>
+
+<footer>
+<p><b>MozAnúncios</b> - Todo Moçambique num só lugar</p>
+<p>📱 WhatsApp / Publicidade: <b>83 371 5054</b></p>
+<p>💰 Pagamento M-Mola: <b>87 419 3775</b></p>
+<button class="green" onclick="window.open('https://wa.me/258833715054?text=Apoio','_blank')">💬 APOIO - Falar no WhatsApp</button>
+<p class="small">© 2026 MozAnúncios</p>
+<span id="bossBtn" onclick="abrirBoss()">.</span>
+</footer>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { getDatabase, ref, push, onValue, update, remove, get } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyCiGTGw5YTfOrnprGfyjRFuaaqGyT3BbaQ",
+  authDomain: "mozanucio258.firebaseapp.com",
+  databaseURL: "https://mozanucio258-default-rtdb.firebaseio.com",
+  projectId: "mozanucio258",
+  storageBucket: "mozanucio258.firebasestorage.app",
+  messagingSenderId: "329104089723",
+  appId: "1:329104089723:web:98f5b782b7dbc5a42878de"
+};
+const app = initializeApp(firebaseConfig);
+const db = getDatabase(app);
+const adsRef = ref(db, 'anuncios');
+
+let MEU_WHATSAPP="258833715054";
+let BOSS_CODE="6h7d5i9u9l";
+let anuncios=[];
+let tentativas=0;
+
+window.toggleDark=()=>{document.body.classList.toggle('dark')}
+
+window.mostrarPerguntas=()=>{
+let cat=document.getElementById('categoria').value;
+document.getElementById('perguntasEmprego').style.display=cat==='Empregos'?'block':'none';
+document.getElementById('perguntasProcuraSe').style.display=cat==='Procura-se'?'block':'none';
+document.getElementById('campoCategoriaVenda').style.display=cat==='Venda'?'block':'none';
+if(cat==='Procura-se')document.getElementById('titulo').placeholder='Ex: PROCURA-SE Maria, 14 anos, Matola';
+else if(cat==='Empregos')document.getElementById('titulo').placeholder='Ex: Precisa-se Caixa em Maputo';
+else document.getElementById('titulo').placeholder='O que vendes? Ex: iPhone 11';
+}
+
+function lerFoto(file){
+ return new Promise(res=>{
+  if(!file) return res('');
+  let r=new FileReader();
+  r.onload=e=>{
+    let img=new Image();
+    img.onload=()=>{
+      let c=document.createElement('canvas');
+      let max=800; let w=img.width, h=img.height;
+      if(w>max){h=h*max/w; w=max;}
+      c.width=w; c.height=h; c.getContext('2d').drawImage(img,0,0,w,h);
+      res(c.toDataURL('image/jpeg',0.7));
+    };
+    img.src=e.target.result;
+  };
+  r.readAsDataURL(file);
+ });
+}
+
+window.publicarAnuncio=async()=>{
+let cat=document.getElementById('categoria').value;
+let titulo=document.getElementById('titulo').value.trim();
+let preco=document.getElementById('preco').value.trim();
+let local=document.getElementById('local').value.trim();
+let nome=document.getElementById('nome').value.trim();
+let whats=document.getElementById('whatsapp').value.trim();
+let desc=document.getElementById('descricao').value.trim();
+let codigo=document.getElementById('codigoSecreto').value.trim();
+let sub=document.getElementById('subCategoria').value;
+let fotoInput=document.getElementById('foto');
+if(!titulo||!nome||!whats||!codigo){alert('Preenche título, nome, WhatsApp e código secreto.');return}
+if(cat==='Procura-se' && fotoInput.files.length===0){alert('Para PROCURA-SE a foto é OBRIGATÓRIA.');return}
+let hoje=new Date().toDateString();
+let duplicado=anuncios.find(a=>a.titulo===titulo && a.dataDia===hoje);
+if(duplicado){alert('Já publicaste isto hoje. Espera amanhã.');return}
+let fotoData=await lerFoto(fotoInput.files[0]);
+let novo={
+categoria:cat,subCategoria:sub,titulo,preco,local,nome,whatsapp:whats,descricao:desc,codigo,foto:fotoData,
+nomeDesaparecido:document.getElementById('nomeDesaparecido').value,
+idadeDesaparecido:document.getElementById('idadeDesaparecido').value,
+sexoDesaparecido:document.getElementById('sexoDesaparecido').value,
+ultimoLocal:document.getElementById('ultimoLocal').value,
+dataDesapareceu:document.getElementById('dataDesapareceu').value,
+roupa:document.getElementById('roupa').value,
+sinais:document.getElementById('sinais').value,
+contatoFamilia:document.getElementById('contatoFamilia').value,
+empresa:document.getElementById('empresa').value,
+salario:document.getElementById('salario').value,
+tipoVaga:document.getElementById('tipoVaga').value,
+data:new Date().toLocaleString(),dataDia:hoje,estado:'Ativo',denuncias:0,verificado:false,
+crianca:cat==='Procura-se' && parseInt(document.getElementById('idadeDesaparecido').value||'99')<12,
+criadoEm:Date.now()
+};
+await push(adsRef, novo);
+if(cat==='Empregos'||cat==='Procura-se'){
+let msg="🚨 NOVA PUBLICAÇÃO - "+cat+"%0A%0A Título: "+encodeURIComponent(titulo)+"%0A Local: "+encodeURIComponent(local)+"%0A Quem publicou: "+encodeURIComponent(nome)+" - "+encodeURIComponent(whats)+"%0A Descrição: "+encodeURIComponent(desc);
+window.open("https://wa.me/"+MEU_WHATSAPP+"?text="+msg,"_blank");
+}
+alert('Publicado! Todo mundo em todo Moçambique já pode ver.');
+document.getElementById('titulo').value='';document.getElementById('descricao').value='';
+};
+
+window.mostrarFeed=()=>{
+let pesq=(document.getElementById('pesquisa').value||'').toLowerCase();
+let f=document.getElementById('filtro').value;
+let fp=document.getElementById('filtroProvincia').value;
+let agora=Date.now();
+let lista=anuncios.filter(a=>{
+if(a.categoria==='Venda' && (agora-a.criadoEm)>120*24*60*60*1000) return false;
+if(a.categoria==='Empregos' && (agora-a.criadoEm)>30*24*60*60*1000) return false;
+if(f && a.categoria!==f) return false;
+if(fp && !(a.local||'').includes(fp)) return false;
+if(pesq && !(a.titulo+' '+a.descricao+' '+a.local).toLowerCase().includes(pesq)) return false;
+return true;
+});
+let totalV=anuncios.filter(a=>a.categoria==='Venda').length;
+let totalE=anuncios.filter(a=>a.categoria==='Empregos').length;
+let totalP=anuncios.filter(a=>a.categoria==='Procura-se').length;
+document.getElementById('contador').innerText=`Hoje temos ${anuncios.length} anúncios | ${totalV} vendas | ${totalE} vagas | ${totalP} procura-se`;
+let html='';
+lista.forEach(a=>{
+let cor=a.crianca?'border:3px solid red;':a.estado==='Encontrada'?'border:3px solid green;':'';
+let tituloExtra=a.estado==='Encontrada'?'✅ GRAÇAS A DEUS, JÁ FOI ENCONTRADA':a.estado==='Vendido'?'✅ VENDIDO':a.estado==='Preenchida'?'✅ VAGA PREENCHIDA':a.titulo;
+let safeId=a._key;
+html+=`<div class="card" style="${cor}">
+<span class="badge ${a.categoria==='Procura-se'?'badge-red':''}">${a.categoria} ${a.subCategoria||''}</span> ${a.verificado?'✅ Verificado':''} ${a.crianca?'🔴 URGENTE - CRIANÇA':''}
+<h3>${tituloExtra}</h3>
+${a.foto?`<img src="${a.foto}">`:''}
+<p><b>Preço:</b> ${a.preco||'-'} MT | <b>Local:</b> ${a.local}</p>
+<p>${a.descricao}</p>
+${a.categoria==='Procura-se'?`<p><b>Nome:</b> ${a.nomeDesaparecido} | <b>Idade:</b> ${a.idadeDesaparecido} | <b>Sexo:</b> ${a.sexoDesaparecido}<br><b>Último local:</b> ${a.ultimoLocal}<br><b>Data:</b> ${a.dataDesapareceu}<br><b>Roupa:</b> ${a.roupa}<br><b>Sinais:</b> ${a.sinais}<br><b>Família:</b> ${a.contatoFamilia}</p>`:''}
+${a.categoria==='Empregos'?`<p><b>Empresa:</b> ${a.empresa} | <b>Salário:</b> ${a.salario}</p>`:''}
+<p class="small">Por ${a.nome} - ${a.data}</p>
+<button class="green" onclick="window.open('https://wa.me/258${(a.whatsapp||'').replace(/[^0-9]/g,'')}?text=Olá, vi o teu anúncio: ${encodeURIComponent(a.titulo)}','_blank')">💬 WhatsApp de quem publicou</button>
+<button onclick="window.open('tel:${a.whatsapp}')">📞 Ligar</button>
+${a.categoria==='Procura-se'?`<button class="green" onclick="window.open('https://wa.me/258${(a.contatoFamilia||'').replace(/[^0-9]/g,'')}?text=Quero ajudar - Vi o Procura-se','_blank')">🙏 QUERO AJUDAR</button><button class="red" onclick="marcarEncontrada('${safeId}')">✅ JÁ FOI ENCONTRADA</button>`:''}
+${a.categoria==='Venda'?`<button class="yellow" onclick="marcarVendido('${safeId}')">✅ Marcar como VENDIDO</button>`:''}
+${a.categoria==='Empregos'?`<button class="yellow" onclick="marcarPreenchida('${safeId}')">✅ Vaga Preenchida</button>`:''}
+<button onclick="partilhar('${encodeURIComponent(a.titulo)} - ${encodeURIComponent(a.local)}')">↗️ Partilhar no WhatsApp</button>
+<button class="grey" onclick="denunciar('${safeId}')">🚩 Denunciar</button>
+<button class="grey" onclick="apagarComCodigo('${safeId}')">🗑️ Apagar com meu código</button>
+</div>`;
+});
+document.getElementById('feed').innerHTML=html||'<p>Nenhum anúncio ainda. Sê o primeiro a publicar!</p>';
+}
+
+window.partilhar=(t)=>{window.open('https://wa.me/?text='+t+' - Vê em MozAnúncios','_blank')}
+window.denunciar=async(key)=>{
+ let a=anuncios.find(x=>x._key===key);
+ await update(ref(db,'anuncios/'+key),{denuncias:(a.denuncias||0)+1});
+ alert('Denúncia enviada. O administrador vai ver.');
+ window.open('https://wa.me/'+MEU_WHATSAPP+'?text=Denúncia: '+encodeURIComponent(a.titulo),'_blank');
+}
+window.apagarComCodigo=async(key)=>{
+ let c=prompt('Escreva o teu código secreto:');
+ let a=anuncios.find(x=>x._key===key);
+ if(a && a.codigo===c){await remove(ref(db,'anuncios/'+key));alert('Apagado.')}else alert('Código errado. Só quem postou pode apagar.');
+}
+window.marcarEncontrada=async(key)=>{
+ let c=prompt('Escreva o código secreto de quem publicou ou o código Boss para confirmar:');
+ let a=anuncios.find(x=>x._key===key);
+ if(a && (a.codigo===c || c===BOSS_CODE)){await update(ref(db,'anuncios/'+key),{estado:'Encontrada'});window.open('https://wa.me/'+MEU_WHATSAPP+'?text=Pessoa encontrada: '+encodeURIComponent(a.titulo),'_blank');alert('Graças a Deus! Marcado como ENCONTRADA.');}else alert('Código errado.');
+}
+window.marcarVendido=async(key)=>{
+ let c=prompt('Escreva o teu código secreto:');let a=anuncios.find(x=>x._key===key);
+ if(a && a.codigo===c){await update(ref(db,'anuncios/'+key),{estado:'Vendido'});}else alert('Código errado.');
+}
+window.marcarPreenchida=async(key)=>{
+ let c=prompt('Escreva o teu código secreto:');let a=anuncios.find(x=>x._key===key);
+ if(a && a.codigo===c){await update(ref(db,'anuncios/'+key),{estado:'Preenchida'});}else alert('Código errado.');
+}
+window.mostrarPainelVendedor=()=>{
+ let c=prompt('Escreva o teu código secreto para veres só os teus anúncios:');
+ let meus=anuncios.filter(a=>a.codigo===c);
+ if(meus.length===0){alert('Nenhum anúncio com esse código.');return}
+ alert('Tens '+meus.length+' anúncios. Vê no feed, só os teus podem ser apagados com o teu código.');
+}
+window.abrirBoss=async()=>{
+ let c=prompt('Escreva o código');
+ if(c===BOSS_CODE){
+  tentativas=0;
+  let lista=anuncios.map(a=>`ID ${a._key} | ${a.categoria} | ${a.titulo} | Por ${a.nome} - ${a.whatsapp} | Denúncias ${a.denuncias} | Estado ${a.estado}`).join('\n');
+  let acao=prompt('PAINEL BOSS - Só tu vês\n\n'+lista+'\n\nEscreve: APAGAR ID / VERIFICAR ID / DESTAQUE ID\nEx: APAGAR -Mxyz...');
+  if(!acao)return;
+  let partes=acao.split(' '); let id=partes.slice(1).join(' ');
+  if(!id){alert('ID não encontrado');return}
+  if(partes[0]==='APAGAR'){await remove(ref(db,'anuncios/'+id));alert('Apagado pelo Boss.')}
+  else if(partes[0]==='VERIFICAR'){await update(ref(db,'anuncios/'+id),{verificado:true});alert('Selo Verificado dado.')}
+  else if(partes[0]==='DESTAQUE'){await update(ref(db,'anuncios/'+id),{criadoEm:Date.now()});alert('Posto em destaque no topo.')}
+ }else{tentativas++;alert('Código errado.');if(tentativas>=3){alert('Bloqueado 5 minutos.');}}
+}
+
+onValue(adsRef,(snap)=>{
+ anuncios=[];
+ snap.forEach(child=>{ let v=child.val(); v._key=child.key; anuncios.push(v); });
+ anuncios.reverse();
+ document.getElementById('status').innerText='✅ Ligado em tempo real - Todo Moçambique vê na hora';
+ mostrarFeed();
+});
+
+mostrarPerguntas();
+</script>
+</body>
+</html>
