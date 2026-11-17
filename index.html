@@ -7,180 +7,90 @@
 <style>
 *{box-sizing:border-box}body{font-family:Arial,sans-serif;background:#f0f2f5;margin:0;padding-bottom:85px}
 header{position:sticky;top:0;z-index:100;background:#008751;color:#fff;padding:12px 14px;display:flex;justify-content:space-between;align-items:center}
-header h1{margin:0;font-size:19px}header small{font-size:11px;opacity:.9}
-.btn-top{background:#FFC107;border:0;padding:10px 14px;border-radius:20px;font-weight:bold}
+header h1{margin:0;font-size:19px}.btn-top{background:#FFC107;border:0;padding:10px 14px;border-radius:20px;font-weight:bold}
 .container{max-width:620px;margin:0 auto;padding:0 12px}
-.pesquisa{width:100%;padding:12px;border:1px solid #ddd;border-radius:12px;margin:12px 0 8px;font-size:15px}
-.filtros{display:flex;gap:8px;overflow-x:auto;padding:4px 2px}.filtros button{white-space:nowrap;border:1px solid #ddd;background:#fff;padding:8px 14px;border-radius:20px}.filtros button.ativo{background:#008751;color:#fff;font-weight:bold}
-.anuncio{background:#FFC107;border-radius:14px;padding:14px;margin:12px 0}.anuncio small{font-weight:bold}.anuncio h3{margin:6px 0 2px}.anuncio p{margin:0;font-size:13px}.anuncio .row{display:flex;gap:8px;margin-top:10px}.anuncio a{flex:1;text-align:center;background:#000;color:#fff;padding:11px;border-radius:10px;font-weight:bold;text-decoration:none;font-size:13px}.anuncio a.verde{background:#008751}
-.card{background:#fff;border-radius:14px;padding:15px;margin-bottom:12px;box-shadow:0 2px 8px rgba(0,0,0,.08)}
-.card.destaque{border:3px solid #FFC107}.badge-destaque{background:#FFC107;padding:4px 8px;border-radius:20px;font-weight:bold;font-size:11px}.badge-vendido{background:#dc3545;color:#fff;padding:4px 8px;border-radius:20px;font-weight:bold;font-size:11px}.card.vendido{opacity:.6}
+.pesquisa{width:100%;padding:12px;border:1px solid #ddd;border-radius:12px;margin:12px 0 8px}
+.filtros{display:flex;gap:8px;overflow-x:auto}.filtros button{white-space:nowrap;border:1px solid #ddd;background:#fff;padding:8px 14px;border-radius:20px}.filtros button.ativo{background:#008751;color:#fff;font-weight:bold}
+.anuncio{background:#FFC107;border-radius:14px;padding:14px;margin:12px 0}.anuncio .row{display:flex;gap:8px;margin-top:10px}.anuncio a{flex:1;text-align:center;background:#000;color:#fff;padding:11px;border-radius:10px;font-weight:bold;text-decoration:none;font-size:13px}.anuncio a.verde{background:#008751}
+.card{background:#fff;border-radius:14px;padding:15px;margin-bottom:12px}.card.destaque{border:3px solid #FFC107}.card.vendido{opacity:.6}
 input,textarea,select{width:100%;padding:12px;margin:6px 0;border:1px solid #ddd;border-radius:10px;font-size:15px}
-.btn-verde{background:#008751;color:#fff;border:0;padding:13px;border-radius:10px;width:100%;font-weight:bold;font-size:16px}
+.btn-verde{background:#008751;color:#fff;border:0;padding:13px;border-radius:10px;width:100%;font-weight:bold}.btn-cinza{background:#888;color:#fff;border:0;padding:12px;border-radius:10px;width:100%;margin-top:8px;font-weight:bold}
 .vendedor{cursor:pointer;color:#008751;font-weight:bold;text-decoration:underline}.vendedor small{display:block;color:#555;text-decoration:none;font-weight:normal;font-size:12px}
-.post img.foto{width:100%;border-radius:10px;margin-top:10px}
+.fotos-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-top:10px}.fotos-grid img{width:100%;height:110px;object-fit:cover;border-radius:10px;cursor:pointer}.fotos-grid img:first-child{grid-column:span 3;height:220px}
+.preview-grid{display:flex;gap:6px;flex-wrap:wrap}.preview-grid img{width:80px;height:80px;object-fit:cover;border-radius:8px;border:2px solid #008751}
 .tag{background:#e6f4ea;color:#008751;padding:4px 10px;border-radius:20px;font-size:12px;font-weight:bold}
 .btns{display:flex;gap:6px;margin-top:10px}.btns button,.btns a{flex:1;padding:10px;border-radius:10px;border:1px solid #ddd;background:#fff;font-weight:bold;text-align:center;text-decoration:none;color:#111;font-size:13px}.btns .whats{background:#25D366;color:#fff;border:0}
-.row2{display:flex;gap:6px;margin-top:8px;flex-wrap:wrap}.row2 button{flex:1;padding:9px;border-radius:8px;border:0;font-weight:bold;font-size:12px;min-width:80px}.btn-destaque{background:#FFF3CD}.btn-apagar{background:#ffe0e0;color:#c00}.btn-vendido{background:#111;color:#fff}
-.escondido{display:none}
-.modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:999;align-items:center;justify-content:center;padding:16px}.modal.open{display:flex}.modal .box{background:#fff;border-radius:14px;padding:18px;width:100%;max-width:420px;max-height:85vh;overflow:auto}
-.bottom{position:fixed;bottom:0;left:0;right:0;background:#fff;display:flex;justify-content:space-around;padding:10px 0 12px;border-top:1px solid #ddd;z-index:100}.bottom button{border:0;background:none;font-size:12px;color:#555}.bottom button.ativo{color:#008751;font-weight:bold}.bottom span{font-size:20px;display:block}
+.row2{display:flex;gap:6px;margin-top:8px;flex-wrap:wrap}.row2 button{flex:1;padding:9px;border-radius:8px;border:0;font-weight:bold;font-size:12px;min-width:80px}
+.escondido{display:none}.modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:999;align-items:center;justify-content:center;padding:16px}.modal.open{display:flex}.modal .box{background:#fff;border-radius:14px;padding:18px;width:100%;max-width:420px;max-height:85vh;overflow:auto}
+.bottom{position:fixed;bottom:0;left:0;right:0;background:#fff;display:flex;justify-content:space-around;padding:10px 0;border-top:1px solid #ddd;z-index:100}.bottom button{border:0;background:none;font-size:12px;color:#555}.bottom button.ativo{color:#008751;font-weight:bold}.bottom span{font-size:20px;display:block}
 .admin-bar{background:#111;color:#fff;padding:8px 12px;font-size:12px;text-align:center}.admin-bar button{background:#FFC107;border:0;padding:6px 10px;border-radius:10px;font-weight:bold}
-.mini{display:flex;gap:10px;border:1px solid #eee;border-radius:10px;padding:8px;margin-bottom:8px;align-items:center}.mini img{width:60px;height:60px;object-fit:cover;border-radius:8px}.mini b{font-size:13px}
-.footer-admin{text-align:center;padding:20px 0 10px;color:#aaa;font-size:11px}.footer-admin a{color:#aaa;text-decoration:none;font-size:11px}
+.mini{display:flex;gap:10px;border:1px solid #eee;border-radius:10px;padding:8px;margin-bottom:8px;align-items:center}.mini img{width:60px;height:60px;object-fit:cover;border-radius:8px}
+.footer-admin{text-align:center;padding:20px 0;color:#aaa;font-size:11px}.footer-admin a{color:#aaa;text-decoration:none}
 </style>
 </head>
 <body>
 <header><div><h1>📢 Moz Ajuda 258</h1><small>Ajuda rápida em Moçambique</small></div><button class="btn-top" onclick="abrirForm()">+ PUBLICAR</button></header>
 <div id="adminBar" class="admin-bar escondido">👑 Estás como ADMIN <button onclick="sairAdmin()">Sair</button> <span id="resumoAdmin"></span></div>
 <div class="container">
-<input class="pesquisa" id="pesquisa" placeholder="🔍 Pesquisar em Moz Ajuda 258..." oninput="renderizar()">
-<div class="filtros" id="filtros">
-<button class="ativo" onclick="filtrar('Todos',this)">🔽 Todos</button>
-<button onclick="filtrar('Serviços',this)">Serviços</button>
-<button onclick="filtrar('Lojas',this)">Lojas</button>
-<button onclick="filtrar('Emprego',this)">Emprego</button>
-<button onclick="filtrar('Vendas',this)">Vendas</button>
-</div>
-<div class="anuncio">
-<small>📢 ANÚNCIO PATROCINADO</small>
-<h3>Queres a tua loja aqui?</h3>
-<p>Todo Moçambique vai ver a tua loja. Anúncio + Destaque a partir de 50 MT. Fala connosco no WhatsApp.</p>
-<div class="row">
-<a class="verde" href="https://wa.me/258833715054?text=Ol%C3%A1%20Moz%20Ajuda!%20Quero%20PUBLICIDADE%20no%20site" target="_blank">📱 Quero Anunciar</a>
-<a href="https://wa.me/258833715054?text=Ol%C3%A1%20Moz%20Ajuda!%20Quero%20DESTAQUE%20para%20o%20meu%20pedido" target="_blank">⭐ Quero Destaque</a>
-</div>
-</div>
+<input class="pesquisa" id="pesquisa" placeholder="🔍 Pesquisar..." oninput="renderizar()">
+<div class="filtros"><button class="ativo" onclick="filtrar('Todos',this)">Todos</button><button onclick="filtrar('Serviços',this)">Serviços</button><button onclick="filtrar('Lojas',this)">Lojas</button><button onclick="filtrar('Emprego',this)">Emprego</button><button onclick="filtrar('Vendas',this)">Vendas</button></div>
+<div class="anuncio"><small>📢 ANÚNCIO PATROCINADO</small><h3>Queres a tua loja aqui?</h3><p>Anúncio + Destaque a partir de 50 MT. Fala connosco.</p><div class="row"><a class="verde" href="https://wa.me/258833715054?text=Quero%20PUBLICIDADE" target="_blank">📱 Quero Anunciar</a><a href="https://wa.me/258833715054?text=Quero%20DESTAQUE" target="_blank">⭐ Quero Destaque</a></div></div>
 <div class="card escondido" id="formPublicar">
-<h2 style="margin-top:0">Publicar pedido</h2>
-<p style="font-size:13px;background:#fff3cd;padding:10px;border-radius:10px">⚠️ Tudo é PÚBLICO. Não publiques BI ou fotos privadas.</p>
-<input id="nome" placeholder="Teu nome - ex: Maria Nhantumbo">
-<input id="local" placeholder="Bairro / Cidade - ex: Matola, Maputo">
+<h2 id="tituloForm" style="margin-top:0">Publicar pedido</h2>
+<p style="font-size:13px;background:#fff3cd;padding:10px;border-radius:10px">⚠️ Tudo é PÚBLICO. Máximo 3 fotos. Foto grande comprime sozinha.</p>
+<input id="nome" placeholder="Teu nome"><input id="local" placeholder="Bairro / Cidade - ex: Matola, Maputo">
 <select id="tipo"><option>Serviços</option><option>Lojas</option><option>Emprego</option><option>Vendas</option></select>
-<input id="preco" placeholder="Preço - ex: 500 MT / Grátis / Negociável">
-<textarea id="msg" rows="3" placeholder="O que vendes / precisas? Explica aqui..."></textarea>
-<input id="contacto" placeholder="Teu WhatsApp / Telefone - ex: 833715054">
-<label><b>Foto:</b></label>
-<input type="file" id="foto" accept="image/*">
-<img id="preview" style="display:none;width:100%;border-radius:10px;margin-top:8px">
-<button class="btn-verde" onclick="publicar()">PUBLICAR PARA TODO MUNDO VER</button>
+<input id="preco" placeholder="Preço - ex: 500 MT / Grátis"><textarea id="msg" rows="3" placeholder="O que vendes / precisas?"></textarea>
+<input id="contacto" placeholder="Teu WhatsApp - ex: 833715054">
+<label><b>Fotos (máx 3):</b></label><input type="file" id="foto" accept="image/*" multiple>
+<div id="previewGrid" class="preview-grid"></div>
+<button class="btn-verde" id="btnPublicar" onclick="publicar()">PUBLICAR</button>
+<button class="btn-cinza escondido" id="btnCancelarEditar" onclick="cancelarEditar()">Cancelar edição</button>
 <p id="status" style="text-align:center;color:green"></p>
 </div>
 <div id="feed"></div>
-<div class="card"><h3 style="margin-top:0">Sobre nós</h3><p style="color:#555;font-size:14px">Somos de Matola, Maputo. Ajudamos Moçambique a encontrar ajuda rápido.</p><p><b>Publicidade e Destaque:</b> <a href="https://wa.me/258833715054" target="_blank">WhatsApp 833715054</a></p></div>
-<div class="footer-admin">
-© Moz Ajuda 258 - Matola, Maputo<br>
-<a href="#" onclick="abrirPin();return false;">Admin</a> • <a href="https://wa.me/258833715054">Ajuda</a>
+<div style="text-align:center"><button id="btnVerMais" onclick="verMais()" style="background:#008751;color:#fff;border:0;padding:12px 24px;border-radius:20px;font-weight:bold">Ver mais ↓</button><p id="contadorVerMais" style="font-size:12px;color:#777"></p></div>
+<div class="card"><h3>Sobre nós</h3><p style="color:#555;font-size:14px">Somos de Matola, Maputo. Publicidade: <a href="https://wa.me/258833715054">833715054</a></p></div>="irInictivdiv class="footer-admin">© Moz Ajuda 258<br><a href="#" onclick="abrirPin();return false;">Admin</a></div>
 </div>
-</div>
-<div id="modalVendedor" class="modal"><div class="box">
-<div style="display:flex;justify-content:space-between"><h2 id="vendedorNome" style="margin:0">Vendedor</h2><button onclick="fecharVendedor()" style="border:0;background:#eee;padding:8px 12px;border-radius:20px">✕</button></div>
-<p id="vendedorInfo" style="color:#555;font-size:13px"></p>
-<a id="vendedorWhats" href="#" target="_blank" style="display:block;background:#25D366;color:#fff;text-align:center;padding:12px;border-radius:10px;font-weight:bold;text-decoration:none;margin-bottom:12px">💬 Falar com Vendedor no WhatsApp</a>
-<h3 style="font-size:15px">Tudo que este vendedor vende:</h3>
-<div id="vendedorLista"></div>
-</div></div>
-<div id="modalPin" class="modal"><div class="box"><h3>🔐 Login Admin</h3><p style="font-size:14px;color:#555">Só o dono do site entra aqui.</p><input id="inputEmail" placeholder="Email admin"><input type="password" id="inputPin" placeholder="Senha admin"><button class="btn-verde" id="btnConfirmarPin">Entrar como Admin</button><button style="background:#888;color:#fff;border:0;padding:12px;border-radius:10px;width:100%;margin-top:8px" onclick="fecharPin()">Cancelar</button><p id="erroPin" style="color:red;text-align:center;display:none">Email ou senha errada.</p></div></div>
-<div class="bottom">
-<button class="ativo" onclick="irInicio(this)"><span>🏠</span>Início</button>
-<button onclick="abrirForm()"><span>➕</span>Publicar</button>
-<button onclick="document.getElementById('pesquisa').focus();window.scrollTo({top:0,behavior:'smooth'})"><span>🔍</span>Pesquisar</button>
-</div>
-<script type="module">
+<div id="modalVendedor" class="modal"><div class="box"><div style="display:flex;justify-content:space-between"><h2 id="vendedorNome" style="margin:0"></h2><button onclick="fecharVendedor()">✕</button></div><p id="vendedorInfo"></p><a id="vendedorWhats" href="#" target="_blank" style="display:block;background:#25D366;color:#fff;text-align:center;padding:12px;border-radius:10px;font-weight:bold;text-decoration:none;margin-bottom:12px">💬 Falar no WhatsApp</a><div id="vendedorLista"></div></div></div>
+<div id="modalPin" class="modal"><div class="box"><h3>🔐 Login Admin</h3><input id="inputEmail" placeholder="Email admin"><input type="password" id="inputPin" placeholder="Senha admin"><button class="btn-verde" id="btnConfirmarPin">Entrar</button><button class="btn-cinza" onclick="fecharPin()">Cancelar</button><p id="erroPin" style="color:red;display:none">Email ou senha errada.</p></div></div>
+<div id="modalFoto" class="modal" onclick="this.classList.remove('open')"><div class="box" style="padding:8px"><img id="fotoGrande" style="width:100%;border-radius:10px"></div></div>
+<div class="bottom"><button class="ativo" oncthisisck="irInicio(this)"><span>🏠</span>Início</button><button onclick="abrirForm()"><span>➕</span>Publicar</button><button onclick="document.getElementById('pesquisa').focus()"><span>🔍</span>Pesquisar</button></div><script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-import { getDatabase, ref, push, onValue, update, remove } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+import { getDatabase, ref, push, set, onValue, update, remove } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
 import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-import { getStorage, ref as sRef, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-storage.js";
-const firebaseConfig = {
-  apiKey: "COLA_AQUI_TUA_APIKEY",
-  authDomain: "mozajuda258.firebaseapp.com",
-  databaseURL: "https://mozajuda258-default-rtdb.firebaseio.com",
-  projectId: "mozajuda258",
-  storageBucket: "mozajuda258.appspot.com",
-  messagingSenderId: "COLA_AQUI",
-  appId: "COLA_AQUI"
-};
-const app = initializeApp(firebaseConfig);
-const db = getDatabase(app);
-const auth = getAuth(app);
-const storage = getStorage(app);
-let posts = []; let filtroAtual = 'Todos'; let isAdmin = false;
-window.filtrar = (f, btn) => { filtroAtual = f; document.querySelectorAll('.filtros button').forEach(b=>b.classList.remove('ativo')); btn.classList.add('ativo'); renderizar(); }
-window.abrirForm = () => { document.getElementById('formPublicar').classList.remove('escondido'); window.scrollTo({top:0,behavior:'smooth'}); }
-window.irInicio = (b) => { document.querySelectorAll('.bottom button').forEach(x=>x.classList.remove('ativo')); b.classList.add('ativo'); window.scrollTo({top:0,behavior:'smooth'}); }
-window.abrirPin = () => document.getElementById('modalPin').classList.add('open');
-window.fecharPin = () => document.getElementById('modalPin').classList.remove('open');
-window.sairAdmin = async () => { await signOut(auth); }
-window.fecharVendedor = () => document.getElementById('modalVendedor').classList.remove('open');
-document.getElementById('foto').addEventListener('change', e=>{ const f=e.target.files[0]; if(!f) return; const r=new FileReader(); r.onload=()=>{ const p=document.getElementById('preview'); p.src=r.result; p.style.display='block'; }; r.readAsDataURL(f); });
-document.getElementById('btnConfirmarPin').onclick = async () => {
-  try{ await signInWithEmailAndPassword(auth, document.getElementById('inputEmail').value, document.getElementById('inputPin').value); fecharPin(); }
-  catch(e){ document.getElementById('erroPin').style.display='block'; }
-};
-onAuthStateChanged(auth, u=>{ isAdmin = !!u; document.getElementById('adminBar').classList.toggle('escondido', !isAdmin); renderizar(); });
-window.publicar = async () => {
-  const nome=document.getElementById('nome').value.trim(), local=document.getElementById('local').value.trim(), tipo=document.getElementById('tipo').value, preco=document.getElementById('preco').value.trim(), msg=document.getElementById('msg').value.trim(), contacto=document.getElementById('contacto').value.trim();
-  if(!nome||!msg){ alert('Preenche nome e descrição'); return; }
-  document.getElementById('status').innerText='A publicar...';
-  let fotoUrl='';
-  const file=document.getElementById('foto').files[0];
-  if(file){ const path='fotos/'+Date.now()+'_'+file.name; const sr=sRef(storage, path); await uploadBytes(sr, file); fotoUrl=await getDownloadURL(sr); }
-  await push(ref(db,'posts'), {nome, local, tipo, preco, msg, contacto, foto:fotoUrl, data:Date.now(), likes:0, destaque:false, vendido:false, denuncias:0});
-  document.getElementById('status').innerText='✅ Publicado!';
-  const texto = encodeURIComponent(`Novo pedido Moz Ajuda 258:\n${nome} - ${tipo}\n${msg}\nPreço: ${preco}\nLocal: ${local}\nContacto: ${contacto}`);
-  window.open(`https://wa.me/258833715054?text=${texto}`,'_blank');
-  setTimeout(()=>location.reload(),800);
-};
-onValue(ref(db,'posts'), snap=>{
-  posts=[]; snap.forEach(c=>{ posts.push({id:c.key, ...c.val()}); });
-  posts.sort((a,b)=> (b.destaque?1:0)-(a.destaque?1:0) || (a.vendido?1:0)-(b.vendido?1:0) || b.data-a.data);
-  const total=posts.length, dest=posts.filter(p=>p.destaque).length, vend=posts.filter(p=>p.vendido).length;
-  document.getElementById('resumoAdmin').innerText = ` | Total: ${total} | Destaque: ${dest} | Vendido: ${vend}`;
-  renderizar();
-});
-window.renderizar = () => {
-  const q=(document.getElementById('pesquisa').value||'').toLowerCase();
-  const feed=document.getElementById('feed');
-  let lista = posts.filter(p=>{
-    if(filtroAtual!=='Todos' && p.tipo!==filtroAtual) return false;
-    if(q && !((p.nome+' '+p.msg+' '+p.local+' '+p.tipo+' '+p.preco).toLowerCase().includes(q))) return false;
-    return true;
-  });
-  if(!lista.length){ feed.innerHTML='<div class="card" style="text-align:center">Nenhum pedido ainda nesta categoria.<br>Seja o primeiro a publicar!</div>'; return; }
-  feed.innerHTML = lista.map(p=>`
-  <div class="card ${p.destaque?'destaque':''} ${p.vendido?'vendido':''}">
-    ${p.destaque?'<span class="badge-destaque">⭐ DESTAQUE</span>':''} ${p.vendido?'<span class="badge-vendido">VENDIDO / RESOLVIDO</span>':''}
-    <div style="display:flex;justify-content:space-between;align-items:center">
-      <div class="vendedor" onclick="abrirVendedor('${(p.contacto||p.nome).replace(/'/g,'')}','${p.nome.replace(/'/g,'')}','${(p.contacto||'').replace(/'/g,'')}','${(p.local||'').replace(/'/g,'')}')">👤 ${p.nome}<small>📍 ${p.local||''} • ${p.tipo} • ${new Date(p.data).toLocaleDateString('pt-MZ')} • Toca para ver tudo que vende →</small></div>
-      <span class="tag">${p.tipo}</span>
-    </div>
-    <p style="margin:10px 0">${p.msg}</p>
-    ${p.preco?`<b style="color:#008751">💰 ${p.preco}</b>`:''}
-    ${p.foto?`<img class="foto" src="${p.foto}">`:''}
-    <div class="btns">
-      <a class="whats" href="https://wa.me/258${String(p.contacto||'').replace(/\D/g,'').slice(-9)}?text=${encodeURIComponent('Olá, vi o teu anúncio no Moz Ajuda 258: '+p.msg)}" target="_blank">💬 WhatsApp</a>
-      <button onclick="partilhar('${p.id}')">↗️ Partilhar</button>
-      <button onclick="gostar('${p.id}', ${p.likes||0})">❤️ Gostei ${p.likes||0}</button>
-    </div>
-    <div style="text-align:right;margin-top:6px"><button onclick="denunciar('${p.id}', ${p.denuncias||0})" style="border:0;background:none;color:#999;font-size:11px">🚩 Denunciar</button></div>
-    ${isAdmin?`<div class="row2"><button class="btn-destaque" onclick="toggleDestaque('${p.id}', ${!!p.destaque})">${p.destaque?'Tirar Destaque':'⭐ Destacar'}</button><button class="btn-vendido" onclick="toggleVendido('${p.id}', ${!!p.vendido})">${p.vendido?'Reativar':'✅ Vendido'}</button><button class="btn-apagar" onclick="apagar('${p.id}')">🗑️ Apagar</button></div>`:''}
-  </div>`).join('');
-};
-window.abrirVendedor = (chave, nome, contacto, local) => {
-  const meus = posts.filter(p=> (p.contacto||p.nome)===chave || p.nome===nome);
-  document.getElementById('vendedorNome').innerText = '👤 '+nome;
-  document.getElementById('vendedorInfo').innerText = `📍 ${local} • ${meus.length} anúncio(s) • Vendedor no Moz Ajuda 258`;
-  document.getElementById('vendedorWhats').href = `https://wa.me/258${String(contacto||'').replace(/\D/g,'').slice(-9)}?text=${encodeURIComponent('Olá '+nome+', vi os teus produtos no Moz Ajuda 258')}`;
-  document.getElementById('vendedorLista').innerHTML = meus.map(p=>`
-    <div class="mini">${p.foto?`<img src="${p.foto}">`:''}<div><b>${p.msg.slice(0,60)}</b><br><small>${p.tipo} • ${p.preco||''} ${p.vendido?'• VENDIDO':''} ${p.destaque?'• ⭐ DESTAQUE':''}</small><br><a href="https://wa.me/258${String(p.contacto||'').replace(/\D/g,'').slice(-9)}" target="_blank" style="color:#008751;font-weight:bold;font-size:12px">WhatsApp →</a></div></div>`).join('') || '<p>Sem outros anúncios.</p>';
-  document.getElementById('modalVendedor').classList.add('open');
-};
-window.gostar = async (id, atual) => { await update(ref(db,'posts/'+id), {likes: (atual||0)+1}); };
-window.partilhar = async (id) => { const link = location.href.split('#')[0]+'#'+id; if(navigator.share){ try{ await navigator.share({title:'Moz Ajuda 258', text:'Vê este anúncio', url:link}); }catch(e){} } else { await navigator.clipboard.writeText(link); alert('Link copiado!'); } };
-window.denunciar = async (id, atual) => { if(confirm('Denunciar este anúncio como falso / ofensivo?')){ await update(ref(db,'posts/'+id), {denuncias:(atual||0)+1}); alert('Denúncia enviada para o Admin. Obrigado!'); } };
-window.toggleDestaque = async (id, atual) => { if(!isAdmin) return; await update(ref(db,'posts/'+id), {destaque:!atual}); };
-window.toggleVendido = async (id, atual) => { if(!isAdmin) return; await update(ref(db,'posts/'+id), {vendido:!atual}); };
-window.apagar = async (id) => { if(!isAdmin) return; if(confirm('Apagar para sempre?')) await remove(ref(db,'posts/'+id)); };
+const firebaseConfig = { apiKey: "COLA_AQUI_TUA_APIKEY", authDomain: "mozajuda258.firebaseapp.com", databaseURL: "https://mozajuda258-default-rtdb.firebaseio.com", projectId: "mozajuda258", messagingSenderId: "COLA_AQUI", appId: "COLA_AQUI" };
+const app = initializeApp(firebaseConfig); const db = getDatabase(app); const auth =const auth = getAuth(app);
+let posts=[]; let filtroAtual='Todos'; let isAdmin=false; let fotosTemp=[]; let editandoId=null; let visiveis=10;
+const meuToken=id=>localStorage.getItem('meu_post_'+id);
+const gerarToken=()=>Math.random().toString(36).slice(2)+Date.now().toString(36);
+window.filtrar=(f,b)=>{filtroAtual=f;visiveis=10;document.querySelectorAll('.filtros button').forEach(x=>x.classList.remove('ativo'));b.classList.add('ativo');renderizar()};
+window.verMais=()=>{visiveis+=10;renderizar()};
+window.abrirForm=()=>{document.getElementById('formPublicar').classList.remove('escondido');window.scrollTo({top:0,behavior:'smooth'})};
+window.irInicio=b=>{document.querySelectorAll('.bottom button').forEach(x=>x.classList.remove('ativo'));b.classList.add('ativo');window.scrollTo({top:0,behavior:'smooth'})};
+window.abrirPin=()=>document.getElementById('modalPin').classList.add('open');
+window.fecharPin=()=>document.getElementById('modalPin').classList.remove('open');
+window.sairAdmin=async()=>{await signOut(auth)};
+window.fecharVendedor=()=>document.getElementById('modalVendedor').classList.remove('open');
+window.abrirFoto=s=>{document.getElementById('fotoGrande').src=s;document.getElementById('modalFoto').classList.add('open')};
+function comprimirFoto(file){return new Promise(res=>{const r=new FileReader();r.onload=e=>{const img=new Image();img.onload=()=>{const c=document.createElement('canvas');let w=img.width,h=img.height;const s=Math.min(w,h);const x=(w-s)/2,y=(h-s)/2;const max=800;c.width=max;c.height=max;const ctx=c.getContext('2d');ctx.drawImage(img,x,y,s,s,0,0,max,max);res(c.toDataURL('image/jpeg',0.72))};img.src=e.target.result};r.readAsDataURL(file)})}
+document.getElementById('foto').addEventListener('change',async e=>{const files=[...e.target.files].slice(0,3-fotosTemp.length);if(fotosTemp.length>=3){alert('Maximo 3 fotos');return}document.getElementById('status').innerText='A comprimir...';for(let f of files){fotosTemp.push(await comprimirFoto(f))}document.getElementById('status').innerText='';desenharPreview()});
+function desenharPreview(){document.getElementById('previewGrid').innerHTML=fotosTemp.map((f,i)=>`<div style="position:relative"><img src="${f}"><button onclick="removerFoto(${i})" style="position:absolute;top:-6px;right:-6px;background:red;color:#fff;border:0;border-radius:50%;width:22px;height:22px">X</button></div>`).join('')}
+window.removerFoto=i=>{fotosTemp.splice(i,1);desenharPreview()};
+document.getElementById('btnConfirmarPin').onclick=async()=>{try{await signInWithEmailAndPassword(auth,document.getElementById('inputEmail').value,document.getElementById('inputPin').value);fecharPin()}catch(e){document.getElementById('erroPin').style.display='block'}};
+onAuthStateChanged(auth,u=>{isAdmin=!!u;document.getElementById('adminBar').classList.toggle('escondido',!isAdmin);renderizar()});
+window.cancelarEditar=()=>{editandoId=null;fotosTemp=[];document.getElementById('tituloForm').innerText='Publicar pedido';document.getElementById('btnPublicar').innerText='PUBLICAR';document.getElementById('btnCancelarEditar').classList.add('escondido');desenharPreview()};
+window.editarPosto=id=>{const p=posts.find(x=>x.id===id);if(!p)return;editandoId=id;fotosTemp=p.fotos||(p.foto?[p.foto]:[]);document.getElementById('nome').value=p.nome||'';document.getElementById('local').value=p.local||'';document.getElementById('tipo').value=p.tipo||'Serviços';document.getElementById('preco').value=p.preco||'';document.getElementById('msg').value=p.msg||'';document.getElementById('contacto').value=p.contacto||'';document.getElementById('tituloForm').innerText='Editar o teu poste';document.getElementById('btnPublicar').innerText='GUARDAR ALTERACOES';document.getElementById('btnCancelarEditar').classList.remove('escondido');desenharPreview();abrirForm()};
+window.publicar=async()=>{const nome=document.getElementById('nome').value.trim(),local=document.getElementById('local').value.trim(),tipo=document.getElementById('tipo').value,preco=document.getElementById('preco').value.trim(),msg=document.getElementById('msg').value.trim(),contacto=document.getElementById('contacto').value.trim();if(!nome||!msg){alert('Preenche nome e descricao');return}document.getElementById('status').innerText='A publicar...';if(editandoId){const p=posts.find(x=>x.id===editandoId);await update(ref(db,'posts/'+editandoId),{nome,local,tipo,preco,msg,contacto,fotos:fotosTemp});document.getElementById('status').innerText='Guardado!';cancelarEditar();setTimeout(()=>location.reload(),600);return}const token=gerarToken();const r=await push(ref(db,'posts'),{nome,local,tipo,preco,msg,contacto,fotos:fotosTemp,data:Date.now(),likes:0,destaque:false,vendido:false,denuncias:0,editToken:token});localStorage.setItem('meu_post_'+r.key,token);document.getElementById('status').innerText='Publicado!';setTimeout(()=>location.reload(),800)};
+onValue(ref(db,'posts'),snap=>{posts=[];snap.forEach(c=>{posts.push({id:c.key,...c.val()})});posts.sort((a,b)=>(b.destaque?1:0)-(a.destaque?1:0)||(a.vendido?1:0)-(b.vendido?1:0)||b.data-a.data);document.getElementById('resumoAdmin').innerText=` | Total: ${posts.length}`;renderizar()});
+window.renderizar=()=>{const q=(document.getElementById('pesquisa').value||'').toLowerCase();const feed=document.getElementById('feed');let lista=posts.filter(p=>{if(filtroAtual!=='Todos'&&p.tipo!==filtroAtual)return false;if(q&&!((p.nome+' '+p.msg+' '+p.local+' '+p.tipo+' '+p.preco).toLowerCase().includes(q)))return false;return true});const mostrar=lista.slice(0,visiveis);document.getElementById('btnVerMais').style.display=lista.length>visiveis?'inline-block':'none';document.getElementById('contadorVerMais').innerText=`A mostrar ${mostrar.length} de ${lista.length}`;if(!lista.length){feed.innerHTML='<div class="card" style="text-align:center">Nenhum pedido ainda.<br>Seja o primeiro!</div>';return}feed.innerHTML=mostrar.map(p=>{const fotos=p.fotos||(p.foto?[p.foto]:[]);const souEu=!!meuToken(p.id);return `<div class="card ${p.destaque?'destaque':''} ${p.vendido?'vendido':''}">${p.destaque?'<span style="background:#FFC107;padding:4px 8px;border-radius:20px;font-weight:bold;font-size:11px">⭐ DESTAQUE</span>':''} ${p.vendido?'<span style="background:#dc3545;color:#fff;padding:4px 8px;border-radius:20px;font-weight:bold;font-size:11px">VENDIDO</span>':''}<div style="display:flex;justify-content:space-between"><div class="vendedor" onclick="abrirVendedor('${p.nome.replace(/'/g,'')}')">👤 ${p.nome}<small>📍 ${p.local||''} • ${p.tipo} • Toca para ver tudo →</small></div><span class="tag">${p.tipo}</span></div><p>${p.msg}</p>${p.preco?`<b style="color:#008751">💰 ${p.preco}</b>`:''}${fotos.length?`<div class="fotos-grid">${fotos.map(f=>`<img src="${f}" onclick="abrirFoto('${f}')">`).join('')}</div>`:''}<div class="btns"><a class="whats" href="https://wa.me/258${String(p.contacto||'').replace(/\D/g,'').slice(-9)}?text=${encodeURIComponent('Ola, vi no Moz Ajuda: '+p.msg)}" target="_blank">💬 WhatsApp</a><button onclick="partilhar('${p.id}')">↗️ Partilhar</button><button onclick="gostar('${p.id}',${p.likes||0})">❤️ ${p.likes||0}</button></div><div style="text-align:right"><button onclick="denunciar('${p.id}',${p.denuncias||0})" style="border:0;background:none;color:#999;font-size:11px">🚩 Denunciar</button></div>${souEu?`<div class="row2"><button style="background:#e6f4ea;color:#008751" onclick="editarPosto('${p.id}')">✏️ Editar o meu poste</button></div>`:''}${isAdmin?`<div class="row2"><button onclick="toggleDestaque('${p.id}',${!!p.destaque})">⭐ Destacar</button><button onclick="toggleVendido('${p.id}',${!!p.vendido})">✅ Vendido</button><button style="background:#ffe0e0;color:#c00" onclick="apagar('${p.id}')">🗑️ Apagar</button></div>`:''}</div>`}).join('')};
+window.abrirVendedor=nome=>{const meus=posts.filter(p=>p.nome===nome);document.getElementById('vendedorNome').innerText='👤 '+nome;document.getElementById('vendedorInfo').innerText=meus.length+' anuncio(s)';const primeiro=meus[0];document.getElementById('vendedorWhats').href=`https://wa.me/258${String(primeiro?.contacto||'').replace(/\D/g,'').slice(-9)}`;document.getElementById('vendedorLista').innerHTML=meus.map(p=>`<div class="mini"><div><b>${p.msg.slice(0,60)}</b><br><small>${p.tipo} • ${p.preco||''}</small></div></div>`).join('');document.getElementById('modalVendedor').classList.add('open')};
+window.gostar=async(id,a)=>{await update(ref(db,'posts/'+id),{likes:(a||0)+1})};
+window.partilhar=async id=>{const link=location.href.split('#')[0]+'#'+id;if(navigator.share){try{await navigator.share({title:'Moz Ajuda 258',text:'Ve este anuncio',url:link})}catch(e){}}else{await navigator.clipboard.writeText(link);alert('Link copiado!')}};
+window.denunciar=async(id,a)=>{if(confirm('Denunciar?')){await update(ref(db,'posts/'+id),{denuncias:(a||0)+1});alert('Denuncia enviada!')}};
+window.toggleDestaque=async(id,a)=>{if(!isAdmin)return;await update(ref(db,'posts/'+id),{destaque:!a})};
+window.toggleVendido=async(id,a)=>{if(!isAdmin)return;await update(ref(db,'posts/'+id),{vendido:!a})};
+window.apagar=async id=>{if(!isAdmin)return;if(confirm('Apagar para sempre?'))await remove(ref(db,'posts/'+id))};
 </script>
 </body>
 </html>
