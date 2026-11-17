@@ -134,7 +134,31 @@ if(editKey){let i=keys.indexOf(editKey);let old=posts[i];let objEdit={t:t,p:pr,c
 if(fotosTemp.length===0){alert("Mete pelo menos 1 foto. Máximo 4.");return;}
 let catVal=tipoVal==="Vagas"?"Vagas":tipoVal==="Negócios"?"Negócios":"Outros";
 let novoId=gerarId();
-let obj={t:t,p:pr,c:catVal,tipo:tipoVal,provincia:"Moçambique",l:loc,d:desc||"Contacta.",w:normalizar(num),f:fotosTemp[0],fotos:fotosTemp,nome:document.getElementById("nomeV").value||"Vendedor",tel:normalizar(num),data:Date.now(),id:novoId,pin:pin,clicks:0,den:0,dest:false,vendido:false,condicao:cond,empresa:emp,req:req,tipoVaga:tipV,tipoNeg:tipN};
+let obj={};
+obj.t=t;
+obj.p=pr;
+obj.c=catVal;
+obj.tipo=tipoVal;
+obj.provincia="Moçambique";
+obj.l=loc;
+obj.d=desc||"Contacta.";
+obj.w=normalizar(num);
+obj.f=fotosTemp[0];
+obj.fotos=fotosTemp;
+obj.nome=document.getElementById("nomeV").value||"Vendedor";
+obj.tel=normalizar(num);
+obj.data=Date.now();
+obj["id"]=novoId;
+obj["pin"]=pin;
+obj.clicks=0;
+obj.den=0;
+obj.dest=false;
+obj.vendido=false;
+obj.condicao=cond;
+obj.empresa=emp;
+obj.req=req;
+obj.tipoVaga=tipV;
+obj.tipoNeg=tipset
 let nr=push(ref(db,"anuncios"));set(nr,obj).then(()=>{alert("Publicado! ID: "+obj.id+" Guarda o teu código secreto.");fotosTemp=[];document.getElementById("previewFotos").innerHTML="";document.getElementById("fotoInfo").textContent="0 / 4 fotos";window.scrollTo({top:0,behavior:'smooth'});}).catch(e=>{alert("Erro: "+e.message);});
 };
 async function contarVisita(){try{let snap=await get(ref(db,"visitas"));let atual=snap.val()||0;let ja=sessionStorage.getItem("visita_contada");if(!ja){await set(ref(db,"visitas"),atual+1);sessionStorage.setItem("visita_contada","1");}}catch(e){}}
