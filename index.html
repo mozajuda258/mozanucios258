@@ -26,7 +26,7 @@
 .copy{text-align:center;color:#666;font-size:12px;padding:16px}.status{text-align:center;color:#25D366;font-size:13px;padding:6px}.vermais{width:100%;padding:13px;border-radius:10px;border:1px solid #25D366;background:#141a22;color:#25D366;font-weight:900;cursor:pointer;margin-top:12px}
 </style></head><body>
 <div class="top"><div class="top-in"><div class="logo" onclick="clickLogo()">MozAnuncios<span>258</span></div><a href="#painel" style="color:#25D366;font-weight:bold">+ Publicar</a></div></div>
-<div class="hero"><h1>Compra e vende em <b>Moçambique</b></h1><p>Fala direto no WhatsApp ou Liga</p><p class="status" id="status">🟢 A ligar ao Firebase...</p></div>
+<div class="hero"><h1>Compra e vende em <b>Moçambique</b></h1><p>Fala direto no WhatsApp ou Liga</p><p class="status" id="status">A ligar ao Firebase...</p></div>
 <div class="tipo3"><button id="btnCompra" class="on" onclick="setTipo('Compra e Venda')">🛒 Compra e Venda</button><button id="btnVaga" onclick="setTipo('Vagas')">💼 Vagas / Emprego</button><button id="btnNeg" onclick="setTipo('Negócios')">🏢 Negócios</button></div>
 <div class="wrap"><div id="publicidadeBox" class="publicidade"><div style="flex:1"><b>📢 PUBLICIDADE</b><div id="pubTexto"></div><img id="pubFotoImg" style="display:none"><a target="_blank" href="https://wa.me/258833715054" style="background:#000;color:#fff;padding:8px 14px;border-radius:20px;text-decoration:none;font-weight:bold;display:inline-block;margin-top:8px">Falar no WhatsApp</a></div></div></div>
 <div class="wrap"><div class="banner"><div><b>⭐ Queres Destaque ou Publicidade?</b><br><small>Só o dono coloca. Fala no WhatsApp, paga, eu coloco.</small></div><a target="_blank" href="https://wa.me/258833715054?text=Ol%C3%A1%20quero%20Destaque%20/%20Publicidade">WhatsApp 833715054</a></div></div>
@@ -91,7 +91,7 @@ let lis=posts.map((p,i)=>{let q={...p};q._key=keys[i];return q;}).filter(p=>p.ti
 lis.sort((a,b)=>(b.dest?1:0)-(a.dest?1:0));
 document.getElementById("vazio").style.display=lis.length?"none":"block";
 let visivel=lis.slice(0,mostrarQtd);
-document.getElementById("contagem").textContent=`A mostrar ${visivel.length} de ${lis.length} anúncios`;
+document.getElementById("contagem").textContent="A mostrar "+visivel.length+" de "+lis.length+" anúncios";
 document.getElementById("btnVerMais").style.display=lis.length>mostrarQtd?"block":"none";
 document.getElementById("lista").innerHTML=visivel.map((p)=>{
 let midia="";if(p.fotos&&p.fotos.length){midia=`<img src="${p.fotos[0]}" onclick="abrir('${p.fotos[0]}')">`+(p.fotos.length>1?`<div class="miniFoto">${p.fotos.map(f=>`<img src="${f}" onclick="abrir('${f}')">`).join("")}</div>`:"");}else{midia=`<img src="${p.f}">`;}
@@ -134,11 +134,11 @@ if(editKey){let i=keys.indexOf(editKey);let old=posts[i];let objEdit={t:t,p:pr,c
 if(fotosTemp.length===0){alert("Mete pelo menos 1 foto. Máximo 4.");return;}
 let catVal=tipoVal==="Vagas"?"Vagas":tipoVal==="Negócios"?"Negócios":"Outros";
 let novoId=gerarId();
-let obj={t:t,p:pr,c:catVal,tipo:tipoVal,provincia:"Moçambique",l:loc,d:desc||"Contacta.",w:normalizar(num),f:fotosTemp[0],fotos:fotosTemp,nome:document.getElementById("nomeV").value||"Vendedor",tel:normalizar(num),data:Date.now(),[STRIPPED]
+let obj={t:t,p:pr,c:catVal,tipo:tipoVal,provincia:"Moçambique",l:loc,d:desc||"Contacta.",w:normalizar(num),f:fotosTemp[0],fotos:fotosTemp,nome:document.getElementById("nomeV").value||"Vendedor",tel:normalizar(num),data:Date.now(),id:novoId,owner:normalizar(num),clicks:0,den:0,aval:5,dest:false,vendido:false,pin:pin,condicao:cond,empresa:emp,req:req,tipoVaga:tipV,tipoNeg:tipN};
 let nr=push(ref(db,"anuncios"));set(nr,obj).then(()=>{alert("Publicado! ID: "+obj.id+" Guarda o teu código secreto.");fotosTemp=[];document.getElementById("previewFotos").innerHTML="";document.getElementById("fotoInfo").textContent="0 / 4 fotos";window.scrollTo({top:0,behavior:'smooth'});}).catch(e=>{alert("Erro: "+e.message);});
 };
 async function contarVisita(){try{let snap=await get(ref(db,"visitas"));let atual=snap.val()||0;let ja=sessionStorage.getItem("visita_contada");if(!ja){await set(ref(db,"visitas"),atual+1);sessionStorage.setItem("visita_contada","1");}}catch(e){}}
-onValue(ref(db,"anuncios"),(snap)=>{let val=snap.val()||{};keys=Object.keys(val);posts=Object.values(val);document.getElementById("status").textContent="🟢 Ligado - "+posts.length+" anúncios em Moçambique";mostrar();});
+onValue(ref(db,"anuncios"),(snap)=>{let val=snap.val()||{};keys=Object.keys(val);posts=Object.values(val);document.getElementById("status").textContent="🟢 Ligado - "+posts.length+" anúncios em Moçambique";mostrar();},(err)=>{document.getElementById("status").textContent="🔴 Erro Firebase: "+err.message;});
 onValue(ref(db,"visitas"),(snap)=>{visitasTotal=snap.val()||0;if(document.getElementById("adminBox").style.display==="block")mostrarAdmin();});
 onValue(ref(db,"publicidade"),(snap)=>{publicidade=snap.val();let box=document.getElementById("publicidadeBox");if(publicidade){box.style.display="flex";document.getElementById("pubTexto").innerHTML=publicidade.texto?`<b>${publicidade.texto}</b>`:"";let img=document.getElementById("pubFotoImg");if(publicidade.foto){img.src=publicidade.foto;img.style.display="block";}else{img.style.display="none";}}else{box.style.display="none";}});
 contarVisita();filtros();mudarForm();mostrar();
