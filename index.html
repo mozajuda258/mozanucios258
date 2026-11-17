@@ -141,5 +141,5 @@ async function contarVisita(){try{let snap=await get(ref(db,"visitas"));let atua
 onValue(ref(db,"anuncios"),(snap)=>{let val=snap.val()||{};keys=Object.keys(val);posts=Object.values(val);document.getElementById("status").textContent="🟢 Ligado - "+posts.length+" anúncios em Moçambique";mostrar();},(err)=>{document.getElementById("status").textContent="🔴 Erro Firebase: "+err.message;});
 onValue(ref(db,"visitas"),(snap)=>{visitasTotal=snap.val()||0;if(document.getElementById("adminBox").style.display==="block")mostrarAdmin();});
 onValue(ref(db,"publicidade"),(snap)=>{publicidade=snap.val();let box=document.getElementById("publicidadeBox");if(publicidade){box.style.display="flex";document.getElementById("pubTexto").innerHTML=publicidade.texto?`<b>${publicidade.texto}</b>`:"";let img=document.getElementById("pubFotoImg");if(publicidade.foto){img.src=publicidade.foto;img.style.display="block";}else{img.style.display="none";}}else{box.style.display="none";}});
-contarVisita();filtros();mudarForm();mostrar();
+contarVisita();mudarForm();mostrar();
 </script></body></html>
