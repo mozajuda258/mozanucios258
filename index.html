@@ -158,7 +158,7 @@ obj.condicao=cond;
 obj.empresa=emp;
 obj.req=req;
 obj.tipoVaga=tipV;
-obj.tipoNeg=tipn;
+obj.tipoNeg=tipN;
 let nr=push(ref(db,"anuncios"));set(nr,obj).then(()=>{alert("Publicado! ID: "+obj.id+" Guarda o teu código secreto.");fotosTemp=[];document.getElementById("previewFotos").innerHTML="";document.getElementById("fotoInfo").textContent="0 / 4 fotos";window.scrollTo({top:0,behavior:'smooth'});}).catch(e=>{alert("Erro: "+e.message);});
 };
 async function contarVisita(){try{let snap=await get(ref(db,"visitas"));let atual=snap.val()||0;let ja=sessionStorage.getItem("visita_contada");if(!ja){await set(ref(db,"visitas"),atual+1);sessionStorage.setItem("visita_contada","1");}}catch(e){}}
