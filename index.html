@@ -1,169 +1,323 @@
 <!DOCTYPE html>
-<html lang="pt"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>MozAnuncios258 - Compra e Vende em Moçambique</title>
+<html lang="pt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Moza Anúncios</title>
 <style>
-*{box-sizing:border-box;margin:0;padding:0;font-family:Arial,sans-serif}body{background:#0b0f14;color:#fff}
-.top{background:#0d1117;position:sticky;top:0;z-index:30;border-bottom:1px solid #222}.top-in{max-width:1100px;margin:auto;padding:12px 14px;display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap}
-.logo{font-weight:900;font-size:22px;color:#25D366;cursor:pointer}.logo span{color:#fff}
-.hero{max-width:1100px;margin:auto;padding:18px 14px 6px}.hero h1{font-size:30px}.hero h1 b{color:#25D366}.hero p{color:#9aa4b2;margin-top:6px}
-.tipo3{max-width:1100px;margin:12px auto;padding:0 14px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}.tipo3 button{padding:14px;border-radius:12px;border:2px solid #2a3340;background:#141a22;color:#fff;font-weight:900;font-size:15px;cursor:pointer}.tipo3 button.on{background:#25D366;color:#000;border-color:#25D366}
-.publicidade{max-width:1100px;margin:10px auto;background:#FFC107;color:#000;border-radius:14px;padding:14px;display:none;justify-content:space-between;gap:10px;flex-wrap:wrap;align-items:center}.publicidade img{width:100%;max-height:280px;object-fit:cover;border-radius:10px;margin-top:8px}
-.banner{max-width:1100px;margin:10px auto;background:linear-gradient(90deg,#25D366,#0a7a3a);color:#000;border-radius:14px;padding:14px;display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;align-items:center}.banner a{background:#000;color:#fff;padding:10px 14px;border-radius:20px;text-decoration:none;font-weight:bold}
-.search{max-width:1100px;margin:auto;padding:12px 14px;display:flex;gap:8px;flex-wrap:wrap}.search input,.search select{flex:1;min-width:140px;padding:12px;border-radius:10px;border:1px solid #2a3340;background:#141a22;color:#fff;outline:none}
-.filtros{max-width:1100px;margin:auto;padding:0 14px 12px;display:flex;gap:8px;flex-wrap:wrap}.filtros button{padding:8px 14px;border-radius:20px;border:1px solid #2a3340;background:#141a22;color:#fff;cursor:pointer}.filtros button.on{background:#25D366;color:#000;font-weight:bold}
-.wrap{max-width:1100px;margin:auto;padding:0 14px 20px}.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px}
-.card{background:#141a22;border:1px solid #222;border-radius:14px;overflow:hidden;position:relative}.card.dest{border:2px solid #FFC107}.badge{position:absolute;top:10px;left:10px;background:#FFC107;color:#000;padding:5px 10px;border-radius:20px;font-size:12px;font-weight:bold;z-index:2}.vendidoB{position:absolute;top:10px;right:10px;background:#ff3b30;color:#fff;padding:5px 10px;border-radius:20px;font-size:12px;font-weight:bold;z-index:2}
-.card img{width:100%;height:180px;object-fit:cover;background:#222;cursor:pointer}.miniFoto{display:flex;gap:4px}.miniFoto img{height:45px;width:25%;object-fit:cover}.card-in{padding:12px}.cat{font-size:11px;background:#25D36622;color:#25D366;padding:4px 9px;border-radius:20px}.card h3{margin:8px 0 4px}.preco{color:#25D366;font-weight:900;font-size:18px}.mut{color:#9aa4b2;font-size:13px}.desc{font-size:14px;color:#d1d8e0;line-height:1.4;margin:6px 0}
-.vend{display:flex;align-items:center;gap:8px;margin:8px 0;background:#1c2330;padding:8px;border-radius:10px}.vend img{width:36px;height:36px;border-radius:50%;object-fit:cover}.vend small{color:#9aa4b2}
-.row{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}.row a,.row button{flex:1;padding:10px;border-radius:9px;border:none;cursor:pointer;font-weight:bold;text-align:center;text-decoration:none;font-size:13px;min-width:80px}.wa{background:#25D366;color:#000}.ligar{background:#fff;color:#000}.del{background:#3a1a1a;color:#ff8a8a}.mapa{background:#222;color:#fff}
-.painel{max-width:1100px;margin:10px auto 20px;background:#fff;color:#111;border-radius:16px;padding:16px}.painel input,.painel select,.painel textarea{width:100%;padding:11px;margin-top:8px;border-radius:9px;border:1px solid #ddd}.painel label{font-size:13px;color:#555;margin-top:10px;display:block}.painel button{width:100%;padding:13px;margin-top:10px;border:none;border-radius:10px;background:#111;color:#fff;font-weight:bold;cursor:pointer}
-.mini{display:flex;gap:8px;align-items:center;background:#f6f6f6;padding:8px;border-radius:10px;margin-top:8px}.mini img{width:50px;height:50px;object-fit:cover;border-radius:8px}.mini b{flex:1;font-size:14px}.mini button{width:auto;padding:7px 10px;margin:0;font-size:12px}
-.adminBox{background:#111;color:#fff;border:2px solid #FFC107;border-radius:16px;padding:16px;margin:14px auto;max-width:1100px;display:none}.adminBox h2{color:#FFC107}.adminBox button{padding:8px 12px;border-radius:8px;border:none;background:#25D366;font-weight:bold;cursor:pointer;margin:4px}.adminBox input,.adminBox textarea{width:100%;padding:10px;margin-top:8px;border-radius:8px;border:1px solid #333;background:#222;color:#fff}
-.modal{position:fixed;inset:0;background:rgba(0,0,0,.9);display:none;align-items:center;justify-content:center;z-index:99}.modal img{max-width:95%;max-height:85%;border-radius:12px}.modal span{position:absolute;top:15px;right:20px;font-size:30px;cursor:pointer;color:#fff}
-.rodape{background:#0d1117;border-top:2px solid #25D366;padding:24px 14px 30px;color:#d1d8e0}.rodape-in{max-width:1100px;margin:auto;display:grid;grid-template-columns:1fr 1fr 1fr;gap:18px}@media(max-width:700px){.rodape-in{grid-template-columns:1fr}.tipo3{grid-template-columns:1fr}}
-.rodape h3{color:#25D366;font-size:17px;margin-bottom:10px}.rodape p,.rodape li{font-size:14px;line-height:1.6;color:#b8c0cc}.rodape ul{padding-left:18px}.rodape a{color:#25D366;text-decoration:none;font-weight:bold}
-.contato-box{background:#141a22;border:1px solid #222;border-radius:12px;padding:14px;margin-top:10px}.contato-box b{color:#fff}.btn-wa{display:block;text-align:center;background:#25D366;color:#000!important;padding:11px;border-radius:10px;margin-top:10px;font-weight:900}.btn-ligar{display:block;text-align:center;background:#fff;color:#000!important;padding:11px;border-radius:10px;margin-top:8px;font-weight:900}
-.copy{text-align:center;color:#666;font-size:12px;padding:16px}.status{text-align:center;color:#25D366;font-size:13px;padding:6px}.vermais{width:100%;padding:13px;border-radius:10px;border:1px solid #25D366;background:#141a22;color:#25D366;font-weight:900;cursor:pointer;margin-top:12px}
-</style></head><body>
-<div class="top"><div class="top-in"><div class="logo" onclick="clickLogo()">MozAnuncios<span>258</span></div><a href="#painel" style="color:#25D366;font-weight:bold">+ Publicar</a></div></div>
-<div class="hero"><h1>Compra e vende em <b>Moçambique</b></h1><p>Fala direto no WhatsApp ou Liga</p><p class="status" id="status">A ligar ao Firebase...</p></div>
-<div class="tipo3"><button id="btnCompra" class="on" onclick="setTipo('Compra e Venda')">🛒 Compra e Venda</button><button id="btnVaga" onclick="setTipo('Vagas')">💼 Vagas / Emprego</button><button id="btnNeg" onclick="setTipo('Negócios')">🏢 Negócios</button></div>
-<div class="wrap"><div id="publicidadeBox" class="publicidade"><div style="flex:1"><b>📢 PUBLICIDADE</b><div id="pubTexto"></div><img id="pubFotoImg" style="display:none"><a target="_blank" href="https://wa.me/258833715054" style="background:#000;color:#fff;padding:8px 14px;border-radius:20px;text-decoration:none;font-weight:bold;display:inline-block;margin-top:8px">Falar no WhatsApp</a></div></div></div>
-<div class="wrap"><div class="banner"><div><b>⭐ Queres Destaque ou Publicidade?</b><br><small>Só o dono coloca. Fala no WhatsApp, paga, eu coloco.</small></div><a target="_blank" href="https://wa.me/258833715054?text=Ol%C3%A1%20quero%20Destaque%20/%20Publicidade">WhatsApp 833715054</a></div></div>
-<div class="search"><input id="busca" placeholder="Pesquisar em Moçambique..." oninput="mostrar()"><select id="zona" onchange="mostrar()"><option value="">Todo Moçambique</option><option>Maputo</option><option>Matola</option><option>Beira</option><option>Nampula</option><option>Outro</option></select></div>
-<div class="filtros" id="filtros"></div>
-<div class="wrap"><div class="grid" id="lista"></div><p id="vazio" style="text-align:center;color:#888;padding:20px;display:none">Nenhum anúncio nesta secção.</p><button id="btnVerMais" class="vermais" onclick="verMais()" style="display:none">Ver Mais +20</button><p id="contagem" style="text-align:center;color:#888;font-size:13px;margin-top:8px"></p></div>
+body{background:#000;color:#fff;font-family:Arial;padding:12px;margin:0}
+h1{color:#facc15;text-align:center;font-size:22px;cursor:pointer;user-select:none}
+#status{text-align:center;background:#111;padding:10px;border-radius:10px;margin-bottom:12px}
+.card{background:#111;border:1px solid #333;border-radius:12px;padding:12px;margin-bottom:12px}
+.card.destaque{border:2px solid #facc15;background:#1a1500}
+.card.vendido{opacity:.6}
+.badge{background:#facc15;color:#000;padding:3px 8px;border-radius:20px;font-size:11px;font-weight:bold}
+.badgeV{background:#888;color:#fff;padding:3px 8px;border-radius:20px;font-size:11px;font-weight:bold}
+input,select,textarea{width:100%;padding:10px;margin:5px 0;border-radius:8px;border:1px solid #444;background:#222;color:#fff;box-sizing:border-box}
+button{width:100%;padding:12px;background:#facc15;color:#000;font-weight:bold;border:0;border-radius:10px;margin-top:8px}
+.btn2{background:#25D366;color:#fff}.btn3{background:#222;color:#fff;border:1px solid #555}.btnRed{background:#c00;color:#fff}.btnGray{background:#333;color:#fff}
+.filtros{display:flex;gap:6px}.filtros select{flex:1}
+img{width:100%;border-radius:10px;margin-top:8px;object-fit:cover}
+small{color:#aaa}
+.pubBox{background:linear-gradient(90deg,#facc15,#ff8a00);color:#000;padding:14px;border-radius:12px;margin-bottom:12px;text-align:center}
+.pubBox button{background:#000;color:#facc15}
+.row{display:flex;gap:6px;flex-wrap:wrap}.row button{flex:1;min-width:100px;padding:10px;font-size:13px}
+footer{background:#0a0a0a;border-top:1px solid #333;padding:16px;margin-top:20px;font-size:11px;line-height:1.6;color:#bbb}
+footer b{color:#fff;font-size:12px}
+#painelDono{display:none;background:#111;border:2px solid #facc15;padding:12px;border-radius:12px;margin-bottom:12px}
+.hidden{display:none}
+.statBox{display:flex;gap:6px;flex-wrap:wrap}.statBox div{flex:1;min-width:80px;background:#222;padding:10px;border-radius:10px;text-align:center}
+.statBox b{font-size:18px;color:#facc15;display:block}
+.slideWrap{position:relative}.dots{text-align:center;font-size:11px;color:#aaa;margin-top:4px}
+</style>
+</head>
+<body>
+<h1 id="logo">🇲🇿 MOZA ANÚNCIOS</h1>
+<div id="status">🟡 A ligar...</div>
 
-<div id="adminBox" class="adminBox"><h2>🔐 PAINEL ESCONDIDO DO DONO</h2><p>Total anúncios: <b id="adminTotal">0</b> | Total cliques: <b id="adminCliques">0</b> | Total denúncias: <b id="adminDen">0</b> | 👁️ Visitas ao site: <b id="adminVisitas">0</b></p>
-<h3 style="margin-top:14px">📢 Criar Publicidade com FOTO (Só Dono)</h3>
-<label style="color:#aaa;font-size:13px">Foto da publicidade:</label><input type="file" id="pubFotoFile" accept="image/*">
-<input id="pubTitulo" placeholder="Texto da publicidade (opcional)">
-<input id="pubLink" placeholder="WhatsApp da publicidade ex: 833715054">
-<button onclick="salvarPublicidade()">📢 Publicar Publicidade com Foto</button><button onclick="removerPublicidade()" style="background:#ff3b30">Remover Publicidade</button>
-<div id="previewPub" style="margin-top:8px"></div>
-<h3 style="margin-top:14px">⭐ Destaques</h3><div id="adminLista"></div>
-<button onclick="fecharAdmin()" style="background:#ff3b30">Fechar Painel</button></div>
+<div id="painelDono">
+<h3>👑 PAINEL DO DONO - Só tu</h3>
+<b>📊 ESTATÍSTICAS</b>
+<div class="statBox">
+<div><b id="stVisitas">0</b><small>Visitas Totais</small></div>
+<div><b id="stAnuncios">0</b><small>Anúncios</small></div>
+<div><b id="stDestaque">0</b><small>Destaques</small></div>
+<div><b id="stVendidos">0</b><small>Vendidos</small></div>
+<div><b id="stGostos">0</b><small>Gostos</small></div>
+<div><b id="stBanidos">0</b><small>Banidos</small></div>
+</div>
 
-<div class="wrap"><div class="painel" id="painel"><h2>📊 Publicar em Moçambique</h2><p style="color:#666;font-size:14px">Preenche e publica direto. Vagas é GRÁTIS.</p>
-<label>Tipo:</label><select id="tipo" onchange="mudarForm()"><option>Compra e Venda</option><option>Vagas</option><option>Negócios</option></select>
-<div id="formCompra">
-<input id="titulo" placeholder="O que vendes? Ex: iPhone 13"><input id="preco" placeholder="Preço: ex: 18500 MT"><select id="condicao"><option>Novo</option><option>Usado - Como novo</option><option>Usado</option></select><input id="local" placeholder="Local: ex: Matola"><textarea id="desc" placeholder="Descrição do produto: cor, estado, inclui o quê?"></textarea>
+<b>📢 PUBLICIDADE PAGA - Colocar 1 ou Várias Fotos</b>
+<small>Se colocares 2 ou mais, muda sozinha a cada 10 segundos.</small>
+<input id="pubTitulo" placeholder="Título da empresa">
+<input id="pubTexto" placeholder="Texto da publicidade">
+<input id="pubFoto" placeholder="Links das fotos separados por vírgula: link1, link2, link3">
+<input type="file" id="pubFotoFile" accept="image/*" multiple>
+<button class="btn2" onclick="salvarPublicidade()">💾 SALVAR PUBLICIDADE COM FOTO(S)</button>
+<button class="btnRed" onclick="removerPublicidade()">🗑️ Tirar Publicidade</button>
+<div id="prevPub"></div>
+
+<b>🚫 BANIR - Só tu</b>
+<input id="banNum" placeholder="Número para banir ex: 841234567">
+<button class="btnRed" onclick="banirNumero()">🚫 BANIR ESTE NÚMERO</button>
+<div id="listaBanidos" style="font-size:12px"></div>
+
+<b>📋 TODOS ANÚNCIOS</b>
+<div id="listaDono"></div>
+<button class="btn3" onclick="document.getElementById('painelDono').style.display='none'">Fechar Painel</button>
 </div>
-<div id="formVaga" style="display:none">
-<input id="tituloVaga" placeholder="Cargo: Ex: Motorista, Empregada, Contabilista"><input id="salario" placeholder="Salário: ex: 12000 MT/mês"><select id="tipoVaga"><option>Tempo Inteiro</option><option>Meio Tempo</option><option>Estágio</option><option>Freelance</option></select><input id="localVaga" placeholder="Local da vaga: ex: Maputo"><textarea id="reqVaga" placeholder="Requisitos: O que a pessoa precisa ter?"></textarea><input id="empresaVaga" placeholder="Nome da Empresa / Quem contrata">
+
+<div id="pubArea"></div>
+
+<div class="pubBox">
+<b>📢 TUA EMPRESA AQUI - PUBLICIDADE PAGA</b><br><small>Aparece para toda gente em Moçambique</small><br>
+<button onclick="falarPub()">💬 QUERO PUBLICIDADE - FALAR NO WHATSAPP</button>
 </div>
-<div id="formNegocio" style="display:none">
-<input id="tituloNeg" placeholder="Nome do Negócio: Ex: Loja de Roupas, Barraca"><input id="precoNeg" placeholder="Preço / Investimento: ex: 50000 MT"><select id="tipoNeg"><option>Loja / Venda</option><option>Serviço</option><option>Parceria</option><option>Negócio à venda</option></select><input id="localNeg" placeholder="Local do negócio: ex: Beira"><textarea id="descNeg" placeholder="O que faz o negócio? O que vende? Horário?"></textarea>
+
+<div class="card">
+<b>🔔 Notificação da tua Província</b>
+<select id="minhaProv" onchange="salvarProv()">
+<option value="">Escolher província...</option>
+<option>Maputo Cidade</option><option>Maputo Província</option><option>Gaza</option><option>Inhambane</option><option>Sofala</option><option>Manica</option><option>Tete</option><option>Zambézia</option><option>Nampula</option><option>Niassa</option><option>Cabo Delgado</option>
+</select>
+<button class="btn3" onclick="pedirNot()">🔔 ATIVAR NOTIFICAÇÕES</button>
+<div id="avisoProv"></div>
 </div>
-<hr style="margin-top:14px">
-<label>Teu Nome / Nome da Loja:</label><input id="nomeV" placeholder="Teu nome">
-<label>Teu WhatsApp:</label><input id="telV" placeholder="Ex: 833715054">
-<label>🔐 Cria o teu código secreto para apagar / editar / marcar vendido (ninguém vê):</label><input id="codigoVendedor" placeholder="Ex: 1234 - Guarda bem">
-<label>Fotos - Máximo 4 fotos, sem vídeo:</label><input type="file" id="fotoFile" accept="image/*" multiple><p id="fotoInfo" style="font-size:12px;color:#666">0 / 4 fotos</p><div id="previewFotos" style="display:flex;gap:6px;flex-wrap:wrap"></div>
-<button id="btnPublicar" onclick="salvarPost()">✅ Publicar em Moçambique</button>
-</div></div>
-<div class="rodape"><div class="rodape-in"><div><h3>🛒 Sobre</h3><p><b style="color:#fff">MozAnuncios258</b> - Compra e venda em Moçambique.</p></div><div><h3>📋 Regras</h3><ul><li>✅ Só coisas reais, foto real, preço real.</li><li>✅ Vagas é GRÁTIS.</li><li>❌ Proibido burla, foto roubada, preço falso.</li><li>❌ Proibido coisas ilegais.</li><li>⚠️ 23 denúncias = apaga automaticamente.</li><li>🔐 Guarda o teu código secreto. Só tu apagas o teu anúncio.</li></ul></div><div><h3>📞 Contacto</h3><div class="contato-box"><b>MozAnuncios258</b><br>📱 833715054 / 874193775<br>📍 Moçambique<a class="btn-wa" target="_blank" href="https://wa.me/258833715054">💬 WhatsApp 833715054</a><a class="btn-ligar" href="tel:+258833715054">📞 Ligar 833715054</a></div></div></div></div>
-<div class="copy">MozAnuncios258 © 2026 - Feito em Moçambique 🇲🇿 | Painel dono: toca 5x no logo</div>
-<div class="modal" id="modal" onclick="fecharModal()"><span>✕</span><div id="modalConteudo"></div></div>
+
+<div class="card">
+<h3>📢 Publicar Anúncio</h3>
+<input id="nomeV" placeholder="Teu nome / vendedor">
+<input id="titulo" placeholder="Título do anúncio">
+<textarea id="desc" placeholder="Descrição"></textarea>
+<input id="preco" type="number" placeholder="Preço em MZN">
+<input id="local" placeholder="Local: Maputo, Matola, Beira...">
+<select id="tipoN"><option>Venda</option><option>Aluguer</option><option>Serviço</option><option>Emprego</option></select>
+<input id="whats" placeholder="WhatsApp: 84xxxxxxx">
+<input id="foto" placeholder="Links das fotos separados por vírgula (opcional): link1, link2">
+<button onclick="salvarPost()">PUBLICAR AGORA</button>
+<button class="btn2" onclick="falarDestaque()">⭐ QUERO DESTAQUE PAGO - FALAR NO WHATSAPP</button>
+<small>⭐ Destaque = tu falas connosco, pagas, o dono ativa. Só o dono tira.</small>
+<div id="meuCodigo" style="font-size:12px;color:#facc15;margin-top:8px"></div>
+</div>
+
+<div class="card">
+<h3>🔍 Filtros</h3>
+<div class="filtros">
+<select id="fTipo" onchange="filtros()"><option value="">Todos tipos</option><option>Venda</option><option>Aluguer</option><option>Serviço</option><option>Emprego</option></select>
+<select id="fLocal" onchange="filtros()"><option value="">Todos locais</option><option>Maputo</option><option>Matola</option><option>Beira</option><option>Nampula</option></select>
+</div>
+<input id="pesquisa" oninput="filtros()" placeholder="Pesquisar...">
+</div>
+
+<div id="lista">A carregar anúncios...</div>
+<p style="text-align:center"><small>Visitas: <span id="visitas">0</span></small></p>
+
+<footer>
+<b>📜 REGRAS DO SITE</b><br>
+1. Proibido burla, anúncios falsos, pornografia, armas e drogas. Quem publicar é banido.<br>
+2. Preço e local devem ser verdadeiros.<br>
+3. Destaque e Publicidade são PAGOS. Quem quiser, fala no WhatsApp: <b style="color:#fff">83715054</b>. Sem pagamento, sem destaque. Só o dono ativa e só o dono tira.<br>
+4. Sem pagamento automático. Tudo é tratado direto com o dono.<br>
+5. Se um anúncio for denunciado 26 vezes, é apagado automaticamente.<br>
+6. Só o dono pode banir. Ninguém mais pode banir.<br><br>
+<b>❓ COMO USAR</b><br>
+- Publicar: Preenche e carrega PUBLICAR. Guarda teu código de vendedor.<br>
+- Comprar: WhatsApp ou Ligar. Não mandes dinheiro antes de ver o produto.<br>
+- Partilhar: Carrega Partilhar. Gosto: ❤️. Denunciar: 🚩 se for burla.<br><br>
+<b>📞 APOIO / DÚVIDAS / PUBLICIDADES</b><br>
+WhatsApp / Chamadas: <b style="color:#fff">833715054 / 874193775</b><br>
+Destaque e Publicidade: <b style="color:#fff">83715054</b><br>
+© 2026 Moza Anúncios - Moçambique.
+</footer>
+
 <script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/13.4.0/firebase-app.js";
-import { getDatabase, ref, onValue, push, set, remove, update, get } from "https://www.gstatic.com/firebasejs/13.4.0/firebase-database.js";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { getDatabase, ref, onValue, push, set, get, update, remove } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
 const firebaseConfig = { apiKey: "AIzaSyCiGTGw5YTfOrnprGfyjRFuaaqGyT3BbaQ", authDomain: "mozanucio258.firebaseapp.com", databaseURL: "https://mozanucio258-default-rtdb.firebaseio.com", projectId: "mozanucio258", storageBucket: "mozanucio258.firebasestorage.app", messagingSenderId: "329104089723", appId: "1:329104089723:web:98f5b782b7dbc5a42878de" };
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
-let cats=["Todos"],catAtual="Todos",tipoAtual="Compra e Venda",editKey=null,fotosTemp=[],posts=[],keys=[],publicidade=null,mostrarQtd=20,clicksLogo=0,pubFotoTemp="",visitasTotal=0,isDono=false;
-function normalizar(n){n=(n||"").replace(/[^0-9]/g,"");if(n.length==9)n="258"+n;return n;}
-function checkDono(v){let invertido=(v||"").split("").reverse().join("");return invertido==="y9o5i6y4u7";}
-window.clickLogo=function(){clicksLogo++;if(clicksLogo>=5){clicksLogo=0;let c=prompt("pagaste?");if(!checkDono(c)){alert("Errado.");return;}isDono=true;document.getElementById("adminBox").style.display="block";mostrarAdmin();document.getElementById("adminBox").scrollIntoView({behavior:"smooth"});} };
-window.fecharAdmin=function(){isDono=false;document.getElementById("adminBox").style.display="none";};
-function gerarId(){return "MZ-"+Math.floor(10000+Math.random()*89999);}
-function dataTexto(d){let diff=Math.floor((Date.now()-new Date(d))/86400000);if(diff<=0)return"Hoje";if(diff==1)return"Ontem";return"há "+diff+" dias";}
-function podeMexer(p){if(isDono)return true;let cod=prompt("Mete o teu código secreto que criaste ao publicar:");if(!cod){alert("Precisas do código secreto.");return false;}if(cod!==p.pin){alert("Código errado. Só o vendedor pode mexer.");return false;}return true;}
-function filtros(){document.getElementById("filtros").innerHTML=cats.map(c=>`<button class="${c===catAtual?'on':''}" onclick="catAtual='${c}';filtros();mostrar()">${c}</button>`).join("");}
-window.filtros=filtros;
-window.setTipo=function(t){tipoAtual=t;document.getElementById("btnCompra").className=t==="Compra e Venda"?"on":"";document.getElementById("btnVaga").className=t==="Vagas"?"on":"";document.getElementById("btnNeg").className=t==="Negócios"?"on":"";document.getElementById("tipo").value=t;mudarForm();mostrarQtd=20;mostrar();};
-window.mudarForm=function(){let t=document.getElementById("tipo").value;document.getElementById("formCompra").style.display=t==="Compra e Venda"?"block":"none";document.getElementById("formVaga").style.display=t==="Vagas"?"block":"none";document.getElementById("formNegocio").style.display=t==="Negócios"?"block":"none";};
-window.mudarForm=mudarForm;
-window.verMais=function(){mostrarQtd+=20;mostrar();};
-window.mostrar=function(){
-let b=document.getElementById("busca").value.toLowerCase(),z=document.getElementById("zona").value;
-let lis=posts.map((p,i)=>{let q={...p};q._key=keys[i];return q;}).filter(p=>p.tipo===tipoAtual&&(catAtual==="Todos"||p.c===catAtual)&&(!z||(p.l||"").includes(z))&&((p.t||"").toLowerCase().includes(b)||(p.d||"").toLowerCase().includes(b)));
-lis.sort((a,b)=>(b.dest?1:0)-(a.dest?1:0));
-document.getElementById("vazio").style.display=lis.length?"none":"block";
-let visivel=lis.slice(0,mostrarQtd);
-document.getElementById("contagem").textContent="A mostrar "+visivel.length+" de "+lis.length+" anúncios";
-document.getElementById("btnVerMais").style.display=lis.length>mostrarQtd?"block":"none";
-document.getElementById("lista").innerHTML=visivel.map((p)=>{
-let midia="";if(p.fotos&&p.fotos.length){midia=`<img src="${p.fotos[0]}" onclick="abrir('${p.fotos[0]}')">`+(p.fotos.length>1?`<div class="miniFoto">${p.fotos.map(f=>`<img src="${f}" onclick="abrir('${f}')">`).join("")}</div>`:"");}else{midia=`<img src="${p.f}">`;}
-let tipoEmoji=p.tipo==="Vagas"?"💼 VAGA":p.tipo==="Negócios"?"🏢 NEGÓCIO":"🛒 VENDA";
-let extra=p.tipo==="Vagas"?`<div class="mut">🏢 ${p.empresa||""} • ${p.tipoVaga||""} • Requisitos: ${p.req||""}</div>`:p.tipo==="Negócios"?`<div class="mut">🏢 Tipo: ${p.tipoNeg||""}</div>`:`<div class="mut">Condição: ${p.condicao||""}</div>`;
-return `<div class="card ${p.dest?'dest':''}">${p.dest?'<div class="badge">⭐ DESTAQUE - Dono</div>':''}${p.vendido?'<div class="vendidoB">VENDIDO</div>':''}${midia}<div class="card-in"><span class="cat">${tipoEmoji} • ${p.c}</span> <small style="color:#9aa4b2">• ${dataTexto(p.data)} • ID: ${p.id}</small><h3>${p.t}</h3><div class="preco">${p.p}</div><div class="mut">📍 ${p.l} • 👁️ ${p.clicks||0} • ⚠️ ${p.den||0} / 23 denúncias</div>${extra}<div class="desc">${p.d}</div><div class="vend"><img src="${p.fotos?p.fotos[0]:p.f}"><div><b>${p.nome||'Vendedor'}</b></div></div><div class="row"><a class="wa" target="_blank" onclick="clicou('${p._key}')" href="https://wa.me/${p.w}?text=Ol%C3%A1%20vi%20${encodeURIComponent(p.t)}%20(${p.id})">WhatsApp</a><a class="ligar" href="tel:+${p.tel||p.w}">📞 Ligar</a></div><div class="row"><button onclick="avaliar('${p._key}')">⭐ Avaliar</button><button onclick="denunciar('${p._key}')">⚠️ Denunciar (23 apaga)</button></div><div class="row"><button onclick="editar('${p._key}')" style="background:#222;color:#fff">✏️ Editar (só vendedor)</button><button onclick="apagar('${p._key}')" style="background:#3a1a1a;color:#ff8a8a">🗑️ Apagar (só vendedor)</button><button onclick="vendido('${p._key}')" style="background:#25D366;color:#000">✅ Vendido (só vendedor)</button></div></div></div>`}).join("");
-if(document.getElementById("adminBox").style.display==="block")mostrarAdmin();
+const MEU_WHATS = "25883715054";
+let todos = [];
+let banidos = {};
+let souDono = false;
+let timers = {};
+const COD_DONO = String.fromCharCode(56,105,104,55,52,121,55,103,100,54);
+
+// --- SLIDESHOW: Se 2+ fotos, muda a cada 10 segundos ---
+function criarSlideHTML(idUnico, fotos){
+  if(!fotos || fotos.length===0) return "";
+  if(fotos.length===1) return `<img src="${fotos[0]}">`;
+  // 2 ou mais: cria img com id e vai trocar a cada 10s
+  setTimeout(()=>{
+    let el = document.getElementById("img_"+idUnico);
+    if(!el) return;
+    let idx = 0;
+    if(timers[idUnico]) clearInterval(timers[idUnico]);
+    timers[idUnico] = setInterval(()=>{
+      idx = (idx+1) % fotos.length;
+      let novo = document.getElementById("img_"+idUnico);
+      if(!novo){ clearInterval(timers[idUnico]); return; }
+      novo.src = fotos[idx];
+      let dot = document.getElementById("dot_"+idUnico);
+      if(dot) dot.textContent = (idx+1) + " / " + fotos.length;
+    }, 10000);
+  }, 100);
+  return `<div class="slideWrap"><img id="img_${idUnico}" src="${fotos[0]}"><div class="dots" id="dot_${idUnico}">1 / ${fotos.length} • muda a cada 10s</div></div>`;
+}
+function listaFotosDeTexto(texto){
+  if(!texto) return [];
+  return texto.split(",").map(s=>s.trim()).filter(s=>s.length>5);
+}
+function normalizarFotos(a){
+  if(a.fotos && Array.isArray(a.fotos) && a.fotos.length) return a.fotos;
+  if(a.foto) return listaFotosDeTexto(a.foto);
+  return [];
+}
+
+let toques = 0, ultimoToque = 0;
+document.getElementById("logo").addEventListener("click", ()=>{
+  let agora = Date.now();
+  if(agora - ultimoToque > 2000) toques = 0;
+  ultimoToque = agora; toques++;
+  if(toques >= 5){
+    toques = 0;
+    let c = prompt("Pagaste?");
+    if(c === COD_DONO){ souDono = true; document.getElementById("painelDono").style.display = "block"; mostrarLista(); atualizarStats(); alert("Bem-vindo, Dono!"); }
+    else if(c !== null){ alert("Código errado."); }
+  }
+});
+
+window.falarPub = ()=>{ window.open(`https://wa.me/${MEU_WHATS}?text=${encodeURIComponent("Olá! Quero PUBLICIDADE paga para minha empresa.")}`); };
+window.falarDestaque = ()=>{ window.open(`https://wa.me/${MEU_WHATS}?text=${encodeURIComponent("Olá! Quero DESTAQUE PAGO para meu anúncio.")}`); };
+window.partilhar = (titulo, preco)=>{
+  let texto = `Vê este anúncio no Moza Anúncios: ${titulo} - ${preco} MZN - https://mozajuda258.github.io/moza/`;
+  if(navigator.share){ navigator.share({title:titulo, text:texto, url:"https://mozajuda258.github.io/moza/"}); }
+  else{ window.open(`https://wa.me/?text=${encodeURIComponent(texto)}`); }
 };
-window.mostrarAdmin=function(){
-document.getElementById("adminTotal").textContent=posts.length;
-document.getElementById("adminCliques").textContent=posts.reduce((s,p)=>s+(p.clicks||0),0);
-document.getElementById("adminDen").textContent=posts.reduce((s,p)=>s+(p.den||0),0);
-document.getElementById("adminVisitas").textContent=visitasTotal;
-document.getElementById("adminLista").innerHTML=posts.map((p,i)=>{let q={...p};q._key=keys[i];return q;}).map(p=>`<div class="mini" style="background:#222;color:#fff"><img src="${p.fotos?p.fotos[0]:p.f}"><b>${p.id} - ${p.tipo} - ${p.t} - ${p.nome} - ${p.w} - 👁️ ${p.clicks||0} - ⚠️ ${p.den||0}</b><button onclick="toggleDestaque('${p._key}')">${p.dest?"Tirar Destaque":"⭐ Destacar"}</button><button onclick="apagarAdmin('${p._key}')" style="background:#ff3b30;color:#fff">Apagar</button></div>`).join("")||"Nenhum";
+window.salvarProv = ()=>{ let p=document.getElementById("minhaProv").value; localStorage.setItem("prov258",p); document.getElementById("avisoProv").innerHTML = p?`✅ Vais receber avisos de <b>${p}</b>`:""; };
+window.pedirNot = async ()=>{ if("Notification" in window){ let r=await Notification.requestPermission(); alert(r==="granted"?"Notificações ativadas!":"Ativa nas definições."); } };
+if(localStorage.getItem("prov258")){ document.getElementById("minhaProv").value=localStorage.getItem("prov258"); salvarProv(); }
+
+// --- DONO: PUBLICIDADE COM 1 OU VÁRIAS FOTOS ---
+window.salvarPublicidade = async ()=>{
+  if(!souDono){ alert("Só o dono pode fazer isso."); return; }
+  let titulo = document.getElementById("pubTitulo").value || "Publicidade";
+  let texto = document.getElementById("pubTexto").value || "";
+  let fotos = listaFotosDeTexto(document.getElementById("pubFoto").value);
+  let files = document.getElementById("pubFotoFile").files;
+  if(files.length){
+    for(let f of files){
+      let b64 = await new Promise(res=>{ let r=new FileReader(); r.onload=e=>res(e.target.result); r.readAsDataURL(f); });
+      fotos.push(b64);
+    }
+  }
+  if(!fotos.length){ alert("Coloca link(s) OU escolhe foto(s) da galeria."); return; }
+  await set(ref(db,"publicidade"), { titulo, texto, fotos, foto: fotos[0], data: Date.now() });
+  alert("Publicidade salva com "+fotos.length+" foto(s)! Se forem 2+, vai mudar a cada 10s.");
 };
-window.apagarAdmin=function(k){if(confirm("Apagar este anúncio? Dono"))remove(ref(db,"anuncios/"+k));};
-window.toggleDestaque=function(k){let i=keys.indexOf(k);update(ref(db,"anuncios/"+k),{dest:!posts[i].dest});};
-window.salvarPublicidade=function(){let t=document.getElementById("pubTitulo").value;let link=document.getElementById("pubLink").value;if(!pubFotoTemp&&!t){alert("Escolhe foto da publicidade ou escreve texto");return;}set(ref(db,"publicidade"),{texto:t||"",foto:pubFotoTemp||"",link:link||"",data:Date.now()});alert("Publicidade com foto publicada!");pubFotoTemp="";document.getElementById("previewPub").innerHTML="";};
-window.removerPublicidade=function(){remove(ref(db,"publicidade"));alert("Publicidade removida");};
-window.clicou=function(k){let i=keys.indexOf(k);let p=posts[i];update(ref(db,"anuncios/"+k),{clicks:(p.clicks||0)+1});};
-window.denunciar=function(k){let i=keys.indexOf(k);let p=posts[i];let novoDen=(p.den||0)+1;if(novoDen>=23){remove(ref(db,"anuncios/"+k));alert("Este anúncio chegou a 23 denúncias e foi apagado automaticamente.");}else{update(ref(db,"anuncios/"+k),{den:novoDen});alert("Denúncia "+novoDen+"/23 enviada. Aos 23 apaga sozinho.");}};
-window.avaliar=function(k){let n=prompt("Estrelas 1 a 5?");if(n){update(ref(db,"anuncios/"+k),{aval:parseInt(n)});}};
-window.abrir=function(src){document.getElementById("modalConteudo").innerHTML=`<img src="${src}">`;document.getElementById("modal").style.display="flex";};
-window.fecharModal=function(){document.getElementById("modal").style.display="none";};
-window.vendido=function(k){let i=keys.indexOf(k);if(!podeMexer(posts[i]))return;update(ref(db,"anuncios/"+k),{vendido:!posts[i].vendido});};
-window.apagar=function(k){let i=keys.indexOf(k);if(!podeMexer(posts[i]))return;if(confirm("Apagar? ID "+posts[i].id)){remove(ref(db,"anuncios/"+k));}};
-window.editar=function(k){let i=keys.indexOf(k);if(!podeMexer(posts[i]))return;let p=posts[i];editKey=k;document.getElementById("tipo").value=p.tipo||"Compra e Venda";mudarForm();if(p.tipo==="Compra e Venda"){document.getElementById("titulo").value=p.t;document.getElementById("preco").value=p.p;document.getElementById("local").value=p.l;document.getElementById("desc").value=p.d;}if(p.tipo==="Vagas"){document.getElementById("tituloVaga").value=p.t;document.getElementById("salario").value=p.p;document.getElementById("localVaga").value=p.l;document.getElementById("reqVaga").value=p.d;document.getElementById("empresaVaga").value=p.empresa||"";}if(p.tipo==="Negócios"){document.getElementById("tituloNeg").value=p.t;document.getElementById("precoNeg").value=p.p;document.getElementById("localNeg").value=p.l;document.getElementById("descNeg").value=p.d;}document.getElementById("nomeV").value=p.nome;document.getElementById("telV").value=p.w;document.getElementById("codigoVendedor").value=p.pin||"";document.getElementById("painel").scrollIntoView({behavior:'smooth'});alert("A editar ID "+p.id);};
-document.getElementById("pubFotoFile").addEventListener("change",e=>{if(!e.target.files[0])return;let r=new FileReader();r.onload=()=>{pubFotoTemp=r.result;document.getElementById("previewPub").innerHTML=`<img src="${pubFotoTemp}" style="width:100%;max-height:150px;object-fit:cover;border-radius:10px"><p style="color:#25D366">Foto da publicidade pronta!</p>`;};r.readAsDataURL(e.target.files[0]);});
-document.getElementById("fotoFile").addEventListener("change",e=>{let files=[...e.target.files].slice(0,4);if(e.target.files.length>4){alert("Máximo 4 fotos!");}fotosTemp=[];if(files.length===0)return;files.forEach(f=>{let r=new FileReader();r.onload=()=>{fotosTemp.push(r.result);document.getElementById("fotoInfo").textContent=fotosTemp.length+" / 4 fotos";document.getElementById("previewFotos").innerHTML=fotosTemp.map(src=>`<img src="${src}" style="width:70px;height:70px;object-fit:cover;border-radius:8px">`).join("");};r.readAsDataURL(f);});});
-window.salvarPost=function(){
-let tipoVal=document.getElementById("tipo").value;
-let t="",pr="",loc="",desc="",cond="",emp="",req="",tipV="",tipN="";
-if(tipoVal==="Compra e Venda"){t=document.getElementById("titulo").value.trim();pr=document.getElementById("preco").value.trim();loc=document.getElementById("local").value.trim();desc=document.getElementById("desc").value.trim();cond=document.getElementById("condicao").value;}
-if(tipoVal==="Vagas"){t=document.getElementById("tituloVaga").value.trim();pr=document.getElementById("salario").value.trim();loc=document.getElementById("localVaga").value.trim();req=document.getElementById("reqVaga").value.trim();desc=req;emp=document.getElementById("empresaVaga").value.trim();tipV=document.getElementById("tipoVaga").value;}
-if(tipoVal==="Negócios"){t=document.getElementById("tituloNeg").value.trim();pr=document.getElementById("precoNeg").value.trim();loc=document.getElementById("localNeg").value.trim();desc=document.getElementById("descNeg").value.trim();tipN=document.getElementById("tipoNeg").value;}
-if(!t||!pr||!loc){alert("Preenche título, preço/salário e local.");return;}
-let num=document.getElementById("telV").value.trim();if(!num){alert("Mete teu WhatsApp");return;}
-let pin=document.getElementById("codigoVendedor").value.trim();if(!pin){alert("Cria o teu código secreto.");return;}
-if(editKey){let i=keys.indexOf(editKey);let old=posts[i];let objEdit={t:t,p:pr,c:old.c,tipo:tipoVal,provincia:"Moçambique",l:loc,d:desc||"Contacta.",w:normalizar(num),nome:document.getElementById("nomeV").value||"Vendedor",tel:normalizar(num),condicao:cond,empresa:emp,req:req,tipoVaga:tipV,tipoNeg:tipN};if(fotosTemp.length>0){objEdit.f=fotosTemp[0];objEdit.fotos=fotosTemp;}set(ref(db,"anuncios/"+editKey),{...old,...objEdit,pin:pin});editKey=null;alert("Atualizado!");fotosTemp=[];document.getElementById("previewFotos").innerHTML="";return;}
-if(fotosTemp.length===0){alert("Mete pelo menos 1 foto. Máximo 4.");return;}
-let catVal=tipoVal==="Vagas"?"Vagas":tipoVal==="Negócios"?"Negócios":"Outros";
-let novoId=gerarId();
-let obj={};
-obj.t=t;
-obj.p=pr;
-obj.c=catVal;
-obj.tipo=tipoVal;
-obj.provincia="Moçambique";
-obj.l=loc;
-obj.d=desc||"Contacta.";
-obj.w=normalizar(num);
-obj.f=fotosTemp[0];
-obj.fotos=fotosTemp;
-obj.nome=document.getElementById("nomeV").value||"Vendedor";
-obj.tel=normalizar(num);
-obj.data=Date.now();
-obj["id"]=novoId;
-obj["pin"]=pin;
-obj.clicks=0;
-obj.den=0;
-obj.dest=false;
-obj.vendido=false;
-obj.condicao=cond;
-obj.empresa=emp;
-obj.req=req;
-obj.tipoVaga=tipV;
-obj.tipoNeg=tipN;
-let nr=push(ref(db,"anuncios"));set(nr,obj).then(()=>{alert("Publicado! ID: "+obj.id+" Guarda o teu código secreto.");fotosTemp=[];document.getElementById("previewFotos").innerHTML="";document.getElementById("fotoInfo").textContent="0 / 4 fotos";window.scrollTo({top:0,behavior:'smooth'});}).catch(e=>{alert("Erro: "+e.message);});
+window.removerPublicidade = async ()=>{ if(confirm("Tirar publicidade?")) await remove(ref(db,"publicidade")); };
+document.getElementById("pubFotoFile").addEventListener("change", e=>{
+  let files=e.target.files; if(!files.length) return;
+  let html="";
+  for(let f of files){ let r=new FileReader(); r.onload=ev=>{ html+=`<img src="${ev.target.result}" style="height:80px;width:auto;display:inline-block;margin:2px">`; document.getElementById("prevPub").innerHTML=html; }; r.readAsDataURL(f); }
+});
+
+window.banirNumero = async ()=>{
+  if(!souDono) return;
+  let num = document.getElementById("banNum").value.replace(/\D/g,"").replace(/^258/,"");
+  if(num.length < 9){ alert("Número inválido."); return; }
+  if(!confirm("Banir "+num+"?")) return;
+  await update(ref(db,"banidos"), { [num]: true });
+  document.getElementById("banNum").value=""; alert("Banido!");
 };
-async function contarVisita(){try{let snap=await get(ref(db,"visitas"));let atual=snap.val()||0;let ja=sessionStorage.getItem("visita_contada");if(!ja){await set(ref(db,"visitas"),atual+1);sessionStorage.setItem("visita_contada","1");}}catch(e){}}
-onValue(ref(db,"anuncios"),(snap)=>{let val=snap.val()||{};keys=Object.keys(val);posts=Object.values(val);document.getElementById("status").textContent="🟢 Ligado - "+posts.length+" anúncios em Moçambique";mostrar();},(err)=>{document.getElementById("status").textContent="🔴 Erro Firebase: "+err.message;});
-onValue(ref(db,"visitas"),(snap)=>{visitasTotal=snap.val()||0;if(document.getElementById("adminBox").style.display==="block")mostrarAdmin();});
-onValue(ref(db,"publicidade"),(snap)=>{publicidade=snap.val();let box=document.getElementById("publicidadeBox");if(publicidade){box.style.display="flex";document.getElementById("pubTexto").innerHTML=publicidade.texto?`<b>${publicidade.texto}</b>`:"";let img=document.getElementById("pubFotoImg");if(publicidade.foto){img.src=publicidade.foto;img.style.display="block";}else{img.style.display="none";}}else{box.style.display="none";}});
-contarVisita();filtros();mudarForm();mostrar();
-</script></body></html>
+window.desbanirNumero = async (num)=>{ if(!souDono) return; if(confirm("Desbanir "+num+"?")) await remove(ref(db,"banidos/"+num)); };
+window.donoFoto = async (id)=>{
+  if(!souDono) return;
+  let link = prompt("Cola os links das novas fotos separados por vírgula (1 ou várias):");
+  if(!link) return;
+  let fotos = listaFotosDeTexto(link);
+  await update(ref(db,"anuncios/"+id), { fotos, foto: fotos[0] });
+  alert("Fotos atualizadas! Se forem 2+, mudam a cada 10s.");
+};
+window.donoDestaque = async (id, val)=>{ await update(ref(db,"anuncios/"+id), { destaque: val }); };
+window.donoApagar = async (id)=>{ if(confirm("Apagar como dono?")) await remove(ref(db,"anuncios/"+id)); };
+window.donoBanirVendedor = async (whats)=>{ if(!souDono) return; let num=String(whats||"").replace(/\D/g,"").replace(/^258/,""); if(!num) return; if(confirm("Banir vendedor "+num+"?")) await update(ref(db,"banidos"), { [num]: true }); };
+
+function atualizarStats(){
+  let totalGostos = todos.reduce((s,a)=>s+(a.gostos||0),0);
+  document.getElementById("stAnuncios").textContent = todos.length;
+  document.getElementById("stDestaque").textContent = todos.filter(a=>a.destaque).length;
+  document.getElementById("stVendidos").textContent = todos.filter(a=>a.vendido).length;
+  document.getElementById("stGostos").textContent = totalGostos;
+  document.getElementById("stBanidos").textContent = Object.keys(banidos).length;
+  let listaB = Object.keys(banidos).map(n=>`<div>${n} <button onclick="desbanirNumero('${n}')">Desbanir</button></div>`).join("") || "Ninguém banido.";
+  document.getElementById("listaBanidos").innerHTML = listaB;
+}
+window.gostar = async (id)=>{
+  if(localStorage.getItem("gostou_"+id)){ alert("Já gostaste."); return; }
+  let s=await get(ref(db,"anuncios/"+id)); await update(ref(db,"anuncios/"+id), { gostos: (s.val()?.gostos||0)+1 }); localStorage.setItem("gostou_"+id,"1");
+};
+window.denunciar = async (id)=>{
+  if(!confirm("Denunciar como burla / falso?")) return;
+  if(localStorage.getItem("den_"+id)){ alert("Já denunciaste."); return; }
+  let s=await get(ref(db,"anuncios/"+id)); let atual=(s.val()?.denuncias||0)+1;
+  if(atual>=26){ await remove(ref(db,"anuncios/"+id)); alert("Anúncio removido por denúncias."); }
+  else{ await update(ref(db,"anuncios/"+id), { denuncias: atual }); localStorage.setItem("den_"+id,"1"); alert("Denúncia registada."); }
+};
+window.souVendedor = async (id)=>{
+  if(localStorage.getItem("vend_"+id)){ document.getElementById("ctrl_"+id)?.classList.remove("hidden"); return; }
+  let cod=prompt("Coloca teu código de vendedor:"); if(!cod) return;
+  let s=await get(ref(db,"anuncios/"+id));
+  if(s.val()?.vendorKey===cod){ localStorage.setItem("vend_"+id,cod); document.getElementById("ctrl_"+id)?.classList.remove("hidden"); }
+  else alert("Código errado.");
+};
+window.editarAnuncio = async (id)=>{ let s=await get(ref(db,"anuncios/"+id)); let a=s.val(); let np=prompt("Novo preço:",a.preco); if(np===null) return; let nd=prompt("Nova descrição:",a.desc||""); if(nd===null) return; await update(ref(db,"anuncios/"+id),{preco:np,desc:nd}); alert("Atualizado!"); };
+window.apagarAnuncio = async (id)=>{ if(confirm("Apagar?")) await remove(ref(db,"anuncios/"+id)); };
+window.marcarVendido = async (id)=>{ await update(ref(db,"anuncios/"+id),{vendido:true}); alert("Marcado como VENDIDO!"); };
+
+function mostrarLista(){
+  let tipo=document.getElementById("fTipo").value; let local=document.getElementById("fLocal").value.toLowerCase(); let pesq=document.getElementById("pesquisa").value.toLowerCase();
+  let lista=todos.filter(a=>{ if(tipo&&a.tipoNeg!==tipo) return false; if(local&&!(a.local||"").toLowerCase().includes(local)) return false; if(pesq&&!((a.titulo||"")+(a.desc||"")).toLowerCase().includes(pesq)) return false; return true; });
+  lista.sort((a,b)=>(b.destaque?1:0)-(a.destaque?1:0));
+  let html=""; if(lista.length===0) html="<p style='text-align:center'>Nenhum anúncio ainda.</p>";
+  lista.forEach(a=>{
+    let desbloqueado = souDono || localStorage.getItem("vend_"+a.id);
+    let fotos = normalizarFotos(a);
+    html+=`<div class="card ${a.destaque?"destaque":""} ${a.vendido?"vendido":""}">${a.destaque?'<span class="badge">⭐ DESTAQUE PAGO</span>':""} ${a.vendido?'<span class="badgeV">✅ VENDIDO</span>':""}<br><b>${a.titulo||""}</b><br><small>${a.tipoNeg||""} • ${a.local||""} • ${a.nome||""}</small><p>${a.desc||""}</p><b style="color:#facc15">${a.preco||""} MZN</b>${criarSlideHTML("an_"+a.id, fotos)}<div class="row"><button class="btn2" onclick="window.open('https://wa.me/258${String(a.whats||"").replace(/\D/g,"").replace(/^258/,"")}')">💬 WhatsApp</button><button class="btn3" onclick="window.open('tel:+258${String(a.whats||"").replace(/\D/g,"").replace(/^258/,"")}')">📞 Ligar</button><button class="btn3" onclick="partilhar('${(a.titulo||"").replace(/'/g,"")}','${a.preco||""}')">↗️ Partilhar</button><button class="btn3" onclick="gostar('${a.id}')">❤️ ${a.gostos||0}</button><button class="btn3" onclick="denunciar('${a.id}')">🚩 Denunciar</button><button class="btn3" onclick="souVendedor('${a.id}')">🔑 Sou o Vendedor</button></div><div id="ctrl_${a.id}" class="${desbloqueado?"":"hidden"}" style="margin-top:8px"><div class="row"><button onclick="editarAnuncio('${a.id}')">✏️ Editar</button><button class="btnRed" onclick="apagarAnuncio('${a.id}')">🗑️ Apagar</button><button class="btnGray" onclick="marcarVendido('${a.id}')">✅ Vendido</button></div></div></div>`;
+  });
+  document.getElementById("lista").innerHTML=html;
+  if(souDono) mostrarPainelDono();
+}
+function mostrarPainelDono(){
+  let html="";
+  todos.forEach(a=>{
+    let fotos = normalizarFotos(a);
+    html+=`<div style="border:1px solid #444;padding:8px;border-radius:8px;margin-bottom:6px"><b>${a.titulo}</b> - ${a.preco} MZN - ${a.local}<br><small>Vendedor: ${a.nome} - ${a.whats} - Gostos: ${a.gostos||0} - Fotos: ${fotos.length} - Destaque: ${a.destaque?"SIM":"NÃO"}</small>${fotos.length?`<br><img src="${fotos[0]}" style="height:80px;object-fit:cover">`:""}<div class="row"><button onclick="donoDestaque('${a.id}',true)">⭐ Ativar Destaque</button><button class="btn3" onclick="donoDestaque('${a.id}',false)">Tirar Destaque</button><button onclick="donoFoto('${a.id}')">🖼️ Colocar Foto(s)</button><button class="btnRed" onclick="donoApagar('${a.id}')">Apagar</button><button class="btnRed" onclick="donoBanirVendedor('${a.whats}')">🚫 Banir</button></div></div>`;
+  });
+  document.getElementById("listaDono").innerHTML=html||"Sem anúncios.";
+  atualizarStats();
+}
+window.filtros=mostrarLista;
+window.salvarPost=async function(){
+  let titulo=document.getElementById("titulo").value.trim(); if(!titulo){ alert("Escreve o título"); return; }
+  let whatsRaw=document.getElementById("whats").value.replace(/\D/g,"").replace(/^258/,"");
+  if(banidos[whatsRaw]){ alert("Este número está banido. Fala com o dono: 833715054"); return; }
+  let vendorKey=Math.random().toString(36).slice(2,8).toUpperCase();
+  let fotos = listaFotosDeTexto(document.getElementById("foto").value);
+  let obj={ nome:document.getElementById("nomeV").value, titulo, desc:document.getElementById("desc").value, preco:document.getElementById("preco").value, local:document.getElementById("local").value, tipoNeg:document.getElementById("tipoN").value, whats:document.getElementById("whats").value, foto: fotos[0]||"", fotos, destaque:false, vendido:false, gostos:0, denuncias:0, vendorKey, data:Date.now() };
+  try{ let nr=push(ref(db,"anuncios")); await set(nr,obj); localStorage.setItem("vend_"+nr.key,vendorKey); document.getElementById("meuCodigo").innerHTML="🔑 Teu código: <b>"+vendorKey+"</b> - Tira print!"; alert("Publicado! Teu código é: "+vendorKey); document.getElementById("titulo").value=""; document.getElementById("desc").value=""; }catch(e){ alert("Erro: "+e.message); }
+};
+onValue(ref(db,"anuncios"), (snap)=>{ let v=snap.val()||{}; let antes=todos.length; todos=Object.entries(v).map(([id,val])=>({id,...val})); document.getElementById("status").textContent="🟢 Ligado - "+todos.length+" anúncios"; mostrarLista(); let mp=localStorage.getItem("prov258")||""; if(mp&&todos.length>antes&&antes>0){ let u=todos[todos.length-1]; if((u.local||"").toLowerCase().includes(mp.toLowerCase().split(" ")[0].toLowerCase())){ document.getElementById("avisoProv").innerHTML=`🔔 <b>Novo em ${mp}:</b> ${u.titulo}`; if(window.Notification&&Notification.permission==="granted") new Notification("Novo em "+mp,{body:u.titulo}); } } if(souDono) atualizarStats(); });
+onValue(ref(db,"visitas"), (snap)=>{ let n=snap.val()||0; document.getElementById("visitas").textContent=n; document.getElementById("stVisitas").textContent=n; });
+onValue(ref(db,"banidos"), (snap)=>{ banidos=snap.val()||{}; if(souDono) atualizarStats(); });
+onValue(ref(db,"publicidade"), (snap)=>{
+  let p=snap.val();
+  if(p){
+    let fotos = (p.fotos && Array.isArray(p.fotos)) ? p.fotos : listaFotosDeTexto(p.foto||"");
+    document.getElementById("pubArea").innerHTML=`<div class="card" style="border:2px solid #facc15"><b>⭐ ${p.titulo||"Publicidade"}</b><p>${p.texto||""}</p>${criarSlideHTML("pub", fotos)}</div>`;
+  } else document.getElementById("pubArea").innerHTML="";
+});
+get(ref(db,"visitas")).then(s=>{ let atual=s.val()||0; update(ref(db),{visitas:atual+1}); });
+</script>
+</body>
+</html>
