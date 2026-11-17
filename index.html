@@ -41,7 +41,7 @@ body.dark #bossBtn{color:#777}
 <option value="Venda">Venda e Compra</option>
 <option value="Empregos">Vagas de Emprego</option>
 <option value="Procura-se">Procura-se</option>
-</select>
+<option value="Serviços">💼 Serviços / Negócio</option></select>
 <select id="filtroProvincia" onchange="mostrarFeed()">
 <option value="">Todas as províncias</option>
 <option>Maputo</option><option>Matola</option><option>Gaza</option><option>Inhambane</option><option>Sofala - Beira</option><option>Manica</option><option>Tete</option><option>Zambézia</option><option>Nampula</option><option>Cabo Delgado</option><option>Niassa</option>
@@ -53,7 +53,31 @@ body.dark #bossBtn{color:#777}
 <option value="Venda">🛒 Venda e Compra</option>
 <option value="Empregos">💼 Vagas de Emprego</option>
 <option value="Procura-se">🔍 Procura-se - Pessoa Desaparecida</option>
+  <option value="Serviços">💼 Serviços / Negócio</option>
 </select>
+  <div id="campo-servico" style="display:none;">
+<label><b>O que fazes?</b></label>
+<select id="profissao">
+<option value="">-- Escolhe --</option>
+<option>Mecânico</option>
+<option>Electricista</option>
+<option>Barbeiro / Cabeleireiro</option>
+<option>Lavo Roupa</option>
+<option>Empregada Doméstica</option>
+<option>Jardineiro</option>
+<option>Pintor</option>
+<option>Pedreiro</option>
+<option>Carpinteiro</option>
+<option>Canalizador</option>
+<option>Soldador</option>
+<option>Costureira / Alfaiate</option>
+<option>Cozinheiro</option>
+<option>Fotógrafo</option>
+<option>Motorista</option>
+<option>Técnico de Telemóvel</option>
+<option>Outro</option>
+</select>
+</div>
 
 <div id="campoCategoriaVenda">
 <select id="subCategoria">
@@ -317,6 +341,10 @@ onValue(adsRef,(snap)=>{
 });
 
 mostrarPerguntas();
+  document.getElementById('categoria').addEventListener('change', function(){
+  var s = document.getElementById('campo-servico');
+  if(s) s.style.display = (this.value === 'Serviços') ? 'block' : 'none';
+});
 </script>
 </body>
 </html>
