@@ -30,6 +30,9 @@ footer b{color:#fff;font-size:12px}
 .statBox b{font-size:18px;color:#0a7a3a;display:block}
 .slideWrap{position:relative}.dots{text-align:center;font-size:11px;color:#666;margin-top:4px}
 .prev img{height:70px;width:auto;display:inline-block;margin:3px}
+.imgTocavel{cursor:pointer}
+.seta{position:absolute;top:45%;width:38px;height:38px;padding:0;border-radius:50%;background:rgba(0,0,0,.65);color:#fff;font-size:16px;display:flex;align-items:center;justify-content:center;z-index:2}
+.setaL{left:8px}.setaR{right:8px}
 </style>
 </head>
 <body>
@@ -48,7 +51,7 @@ footer b{color:#fff;font-size:12px}
 <div><b id="stBanidos">0</b><small>Banidos</small></div>
 </div>
 <b>📢 PUBLICIDADE PAGA - Colocar Foto(s)</b>
-<small>Se forem 2+, muda sozinha a cada 10s.</small>
+<small>Publicidade muda sozinha a cada 10s.</small>
 <input id="pubTitulo" placeholder="Título da empresa">
 <input id="pubTexto" placeholder="Texto da publicidade">
 <button class="btnGaleria" onclick="document.getElementById('pubFotoFile').click()">📷 ESCOLHER FOTOS DA GALERIA - PUBLICIDADE</button>
@@ -89,7 +92,7 @@ footer b{color:#fff;font-size:12px}
 <input type="file" id="fotosGaleria" accept="image/*" multiple style="display:none">
 <input id="fotoLink" placeholder="Ou cola links das fotos separados por vírgula (opcional)">
 <div id="prevVendedor" class="prev"></div>
-<small>📷 Toca na galeria OU cola link. Podes usar os dois. Se forem 2+ fotos, mudam a cada 10 segundos.</small>
+<small>📷 Toca na galeria OU cola link. Nos anúncios, toca na foto ou nas setas ◀ ▶ para ver as outras fotos.</small>
 <button onclick="salvarPost()">PUBLICAR AGORA</button>
 <button class="btn2" onclick="falarDestaque()">⭐ QUERO DESTAQUE PAGO - FALAR NO WHATSAPP</button>
 <small>⭐ Destaque = tu falas connosco, pagas, o dono ativa. Só o dono tira.</small>
@@ -118,6 +121,7 @@ footer b{color:#fff;font-size:12px}
 6. Só o dono pode banir.<br><br>
 <b>❓ COMO USAR</b><br>
 - Publicar: Preenche, toca em ESCOLHER FOTOS DA GALERIA ou cola link, carrega PUBLICAR. Guarda teu código de vendedor.<br>
+- Ver fotos: Toca na foto do anúncio ou nas setas ◀ ▶ para ver a próxima foto.<br>
 - Comprar: WhatsApp ou Ligar. Não mandes dinheiro antes de ver o produto.<br><br>
 <b>📞 APOIO / DÚVIDAS / PUBLICIDADES</b><br>
 WhatsApp / Chamadas: <b style="color:#fff">833715054 / 874193775</b><br>
@@ -138,6 +142,8 @@ let souDono = false;
 let timers = {};
 let fotosVendedor = [];
 let fotosPub = [];
+window.fotosMap = {};
+window.idxMap = {};
 const COD_DONO = String.fromCharCode(56,105,104,55,52,121,55,103,100,54);
 function tempoAtras(data){
   if(!data) return "";
@@ -151,25 +157,43 @@ function tempoAtras(data){
   if(dias < 30) return "🕒 Publicado há " + dias + " dia" + (dias>1?"s":"");
   return "🕒 Publicado há " + Math.floor(dias/30) + " mês(es)";
 }
-function criarSlideHTML(idUnico, fotos){
+function criarSlidePub(fotos){
   if(!fotos || fotos.length===0) return "";
   if(fotos.length===1) return `<img src="${fotos[0]}">`;
   setTimeout(()=>{
-    let el = document.getElementById("img_"+idUnico);
+    let el = document.getElementById("img_pub");
     if(!el) return;
     let idx = 0;
-    if(timers[idUnico]) clearInterval(timers[idUnico]);
-    timers[idUnico] = setInterval(()=>{
+    if(timers["pub"]) clearInterval(timers["pub"]);
+    timers["pub"] = setInterval(()=>{
       idx = (idx+1) % fotos.length;
-      let novo = document.getElementById("img_"+idUnico);
-      if(!novo){ clearInterval(timers[idUnico]); return; }
+      let novo = document.getElementById("img_pub");
+      if(!novo){ clearInterval(timers["pub"]); return; }
       novo.src = fotos[idx];
-      let dot = document.getElementById("dot_"+idUnico);
-      if(dot) dot.textContent = (idx+1) + " / " + fotos.length;
+      let dot = document.getElementById("dot_pub");
+      if(dot) dot.textContent = (idx+1) + " / " + fotos.length + " • muda sozinha a cada 10s";
     }, 10000);
   }, 100);
-  return `<div class="slideWrap"><img id="img_${idUnico}" src="${fotos[0]}"><div class="dots" id="dot_${idUnico}">1 / ${fotos.length} • muda a cada 10s</div></div>`;
+  return `<div class="slideWrap"><img id="img_pub" src="${fotos[0]}"><div class="dots" id="dot_pub">1 / ${fotos.length} • muda sozinha a cada 10s</div></div>`;
 }
+function criarSlideAnuncio(idUnico, fotos){
+  if(!fotos || fotos.length===0) return "";
+  if(fotos.length===1) return `<img src="${fotos[0]}">`;
+  window.fotosMap[idUnico] = fotos;
+  window.idxMap[idUnico] = 0;
+  return `<div class="slideWrap"><img class="imgTocavel" id="img_${idUnico}" src="${fotos[0]}" onclick="trocarFotoManual('${idUnico}',1)"><button class="seta setaL" onclick="event.stopPropagation();trocarFotoManual('${idUnico}',-1)">◀</button><button class="seta setaR" onclick="event.stopPropagation();trocarFotoManual('${idUnico}',1)">▶</button><div class="dots" id="dot_${idUnico}">👆 Toca na foto ou nas setas ◀ ▶ • 1 / ${fotos.length}</div></div>`;
+}
+window.trocarFotoManual = (idUnico, dir)=>{
+  let fotos = window.fotosMap[idUnico];
+  if(!fotos) return;
+  if(dir===undefined) dir=1;
+  let idx = (window.idxMap[idUnico] + dir + fotos.length) % fotos.length;
+  window.idxMap[idUnico] = idx;
+  let el = document.getElementById("img_"+idUnico);
+  if(el) el.src = fotos[idx];
+  let dot = document.getElementById("dot_"+idUnico);
+  if(dot) dot.textContent = "👆 Toca na foto ou nas setas ◀ ▶ • " + (idx+1) + " / " + fotos.length;
+};
 function listaFotosDeTexto(texto){ if(!texto) return []; return texto.split(",").map(s=>s.trim()).filter(s=>s.length>5); }
 function normalizarFotos(a){ if(a.fotos && Array.isArray(a.fotos) && a.fotos.length) return a.fotos; if(a.foto) return listaFotosDeTexto(a.foto); return []; }
 document.getElementById("fotosGaleria").addEventListener("change", async (e)=>{
@@ -221,7 +245,7 @@ window.salvarPublicidade = async ()=>{
   let fotos = [...fotosPub, ...listaFotosDeTexto(document.getElementById("pubFotoLink").value)];
   if(!fotos.length){ alert("Escolhe fotos da galeria OU cola link."); return; }
   await set(ref(db,"publicidade"), { titulo, texto, fotos, foto: fotos[0], data: Date.now() });
-  alert("Publicidade salva com "+fotos.length+" foto(s)!");
+  alert("Publicidade salva com "+fotos.length+" foto(s)! Vai mudar sozinha a cada 10s.");
 };
 window.removerPublicidade = async ()=>{ if(confirm("Tirar publicidade?")) await remove(ref(db,"publicidade")); };
 window.banirNumero = async ()=>{
@@ -245,7 +269,7 @@ window.donoFoto = async (id)=>{
     }
     if(!novas.length) return;
     await update(ref(db,"anuncios/"+id), { fotos: novas, foto: novas[0] });
-    alert("Foto(s) do destaque trocada(s)! "+novas.length+" foto(s). Se forem 2+, mudam a cada 10s.");
+    alert("Foto(s) do destaque trocada(s)! "+novas.length+" foto(s). Agora só muda quando tocar ou na seta.");
   };
   inp.click();
 };
@@ -291,7 +315,7 @@ function mostrarLista(){
   lista.forEach(a=>{
     let desbloqueado = souDono || localStorage.getItem("vend_"+a.id);
     let fotos = normalizarFotos(a);
-    html+=`<div class="card ${a.destaque?"destaque":""} ${a.vendido?"vendido":""}">${a.destaque?'<span class="badge">⭐ DESTAQUE PAGO</span>':""} ${a.vendido?'<span class="badgeV">✅ VENDIDO</span>':""}<br><b>${a.titulo||""}</b><br><small>${a.tipoNeg||""} • ${a.local||""} • ${a.nome||""}</small><br><small>${tempoAtras(a.data)}</small><p>${a.desc||""}</p><b style="color:#0a7a3a">${a.preco||""} MZN</b>${criarSlideHTML("an_"+a.id, fotos)}<div class="row"><button class="btn2" onclick="window.open('https://wa.me/258${String(a.whats||"").replace(/\D/g,"").replace(/^258/,"")}')">💬 WhatsApp</button><button class="btn3" onclick="window.open('tel:+258${String(a.whats||"").replace(/\D/g,"").replace(/^258/,"")}')">📞 Ligar</button><button class="btn3" onclick="partilhar('${(a.titulo||"").replace(/'/g,"")}','${a.preco||""}')">↗️ Partilhar</button><button class="btn3" onclick="gostar('${a.id}')">❤️ ${a.gostos||0}</button><button class="btn3" onclick="denunciar('${a.id}')">🚩 Denunciar</button><button class="btn3" onclick="souVendedor('${a.id}')">🔑 Sou o Vendedor</button></div><div id="ctrl_${a.id}" class="${desbloqueado?"":"hidden"}" style="margin-top:8px"><div class="row"><button onclick="editarAnuncio('${a.id}')">✏️ Editar</button><button class="btnRed" onclick="apagarAnuncio('${a.id}')">🗑️ Apagar</button><button class="btnGray" onclick="marcarVendido('${a.id}')">✅ Vendido</button></div></div></div>`;
+    html+=`<div class="card ${a.destaque?"destaque":""} ${a.vendido?"vendido":""}">${a.destaque?'<span class="badge">⭐ DESTAQUE PAGO</span>':""} ${a.vendido?'<span class="badgeV">✅ VENDIDO</span>':""}<br><b>${a.titulo||""}</b><br><small>${a.tipoNeg||""} • ${a.local||""} • ${a.nome||""}</small><br><small>${tempoAtras(a.data)}</small><p>${a.desc||""}</p><b style="color:#0a7a3a">${a.preco||""} MZN</b>${criarSlideAnuncio("an_"+a.id, fotos)}<div class="row"><button class="btn2" onclick="window.open('https://wa.me/258${String(a.whats||"").replace(/\D/g,"").replace(/^258/,"")}')">💬 WhatsApp</button><button class="btn3" onclick="window.open('tel:+258${String(a.whats||"").replace(/\D/g,"").replace(/^258/,"")}')">📞 Ligar</button><button class="btn3" onclick="partilhar('${(a.titulo||"").replace(/'/g,"")}','${a.preco||""}')">↗️ Partilhar</button><button class="btn3" onclick="gostar('${a.id}')">❤️ ${a.gostos||0}</button><button class="btn3" onclick="denunciar('${a.id}')">🚩 Denunciar</button><button class="btn3" onclick="souVendedor('${a.id}')">🔑 Sou o Vendedor</button></div><div id="ctrl_${a.id}" class="${desbloqueado?"":"hidden"}" style="margin-top:8px"><div class="row"><button onclick="editarAnuncio('${a.id}')">✏️ Editar</button><button class="btnRed" onclick="apagarAnuncio('${a.id}')">🗑️ Apagar</button><button class="btnGray" onclick="marcarVendido('${a.id}')">✅ Vendido</button></div></div></div>`;
   });
   document.getElementById("lista").innerHTML=html;
   if(souDono) mostrarPainelDono();
@@ -322,7 +346,7 @@ onValue(ref(db,"publicidade"), (snap)=>{
   let p=snap.val();
   if(p){
     let fotos = (p.fotos && Array.isArray(p.fotos)) ? p.fotos : listaFotosDeTexto(p.foto||"");
-    document.getElementById("pubArea").innerHTML=`<div class="card" style="border:2px solid #facc15"><b>⭐ ${p.titulo||"Publicidade"}</b><p>${p.texto||""}</p><small>${tempoAtras(p.data)}</small>${criarSlideHTML("pub", fotos)}</div>`;
+    document.getElementById("pubArea").innerHTML=`<div class="card" style="border:2px solid #facc15"><b>⭐ ${p.titulo||"Publicidade"}</b><p>${p.texto||""}</p><small>${tempoAtras(p.data)}</small>${criarSlidePub(fotos)}</div>`;
   } else document.getElementById("pubArea").innerHTML="";
 });
 get(ref(db,"visitas")).then(s=>{ let atual=s.val()||0; update(ref(db),{visitas:atual+1}); });
