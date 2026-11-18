@@ -161,7 +161,6 @@ let soMeus = false;
 window.fotosMap = {};
 window.idxMap = {};
 const COD_DONO = String.fromCharCode(56,105,104,55,52,121,55,103,100,54);
-// AVISAR SE FOTO FOR GRANDE
 function tamanhoMB(bytes){ return (bytes / (1024*1024)).toFixed(1) + " MB"; }
 function verificarFotosGrandes(files, avisoId){
   let el = document.getElementById(avisoId);
@@ -431,8 +430,13 @@ function mostrarLista(){
     if(pesq&&!((a.titulo||"")+(a.desc||"")).toLowerCase().includes(pesq)) return false;
     return true;
   });
-  lista.sort((a,b)=>(b.destaque?1:0)-(a.destaque?1:0));
-  document.getElementById("contagem").textContent = `A mostrar ${lista.length} de ${todos.length} anúncios ${soMeus?"(só os teus)":"- TODOS têm de aparecer aqui"}`;
+  // CORREÇÃO: NOVOS EM CIMA - destaque primeiro, depois os mais novos
+  lista.sort((a,b)=>{
+    let d = (b.destaque?1:0) - (a.destaque?1:0);
+    if(d!==0) return d;
+    return (b.data||0) - (a.data||0);
+  });
+  document.getElementById("contagem").textContent = `A mostrar ${lista.length} de ${todos.length} anúncios - os novos em cima`;
   let html=""; if(lista.length===0) html="<p style='text-align:center;color:#fff'>Nenhum anúncio. Carrega em LIMPAR FILTROS para ver todos.</p>";
   lista.forEach(a=>{
     let desbloqueado = souDono || localStorage.getItem("vend_"+a.id);
@@ -445,7 +449,9 @@ function mostrarLista(){
 }
 function mostrarPainelDono(){
   let html="";
-  todos.forEach(a=>{
+  // No painel do dono também: novos em cima
+  let ordenados = [...todos].sort((a,b)=>(b.data||0)-(a.data||0));
+  ordenados.forEach(a=>{
     let fotos = normalizarFotos(a);
     html+=`<div style="border:1px solid #ddd;padding:8px;border-radius:8px;margin-bottom:6px;background:#f9f9f9"><b>${a.titulo}</b> - ${a.preco} MZN - ${a.local}<br><small>Vendedor: ${a.nome} - ${a.whats} - Gostos: ${a.gostos||0} - Fotos: ${fotos.length} - Destaque: ${a.destaque?"SIM":"NÃO"}</small><br><small>${tempoAtras(a.data)}</small>${fotos.length?`<br><img src="${fotos[0]}" style="height:80px;object-fit:cover">`:""}<div class="row"><button onclick="donoDestaque('${a.id}',true)">⭐ Ativar Destaque</button><button class="btn3" onclick="donoDestaque('${a.id}',false)">Tirar Destaque</button><button onclick="donoFoto('${a.id}')">🖼️ Trocar Foto</button><button class="btnRed" onclick="donoApagar('${a.id}')">Apagar</button><button class="btnRed" onclick="donoBanirVendedor('${a.whats}')">🚫 Banir</button></div></div>`;
   });
@@ -472,8 +478,8 @@ window.salvarPost=async function(){
   try{
     let nr=push(ref(db,"anuncios")); await set(nr,obj);
     localStorage.setItem("vend_"+nr.key,vendorKey);
-    document.getElementById("meuCodigo").innerHTML="✅ JÁ PUBLICASTE! Teu código: <b>"+vendorKey+"</b> - Tira print! O teu anúncio já está em baixo, toda gente pode ver.";
-    alert("✅ PUBLICADO! Já publicaste!\n\nTeu código é: "+vendorKey+"\n\nToda gente já pode ver o teu anúncio. Não precisas publicar de novo.");
+    document.getElementById("meuCodigo").innerHTML="✅ JÁ PUBLICASTE! Teu código: <b>"+vendorKey+"</b> - Tira print! O teu anúncio já está em cima, toda gente pode ver.";
+    alert("✅ PUBLICADO! Já publicaste!\n\nTeu código é: "+vendorKey+"\n\nO teu anúncio já está em CIMA, toda gente vai ver primeiro.");
     document.getElementById("titulo").value=""; document.getElementById("desc").value=""; fotosVendedor=[]; document.getElementById("prevVendedor").innerHTML=""; document.getElementById("avisoFoto").innerHTML=""; document.getElementById("fotosGaleria").value=""; document.getElementById("fotoLink").value=""; soMeus=false; limparFiltros(); document.getElementById("lista").scrollIntoView({behavior:"smooth"});
   }catch(e){ alert("❌ NÃO PUBLICOU! Foto muito grande ou sem internet.\nErro: "+e.message+"\n\nTenta com 1 foto só, ou com link."); }
 };
