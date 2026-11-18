@@ -42,7 +42,7 @@ footer b{color:#fff;font-size:12px}
 </head>
 <body>
 <h1 id="logo">🇲🇿 MOZA ANÚNCIOS</h1>
-<div id="status">🟡 A ligar...</div>
+<div id="status">🟢 A abrir... a mostrar anúncios guardados</div>
 
 <div id="painelDono">
 <h3>👑 PAINEL DO DONO - Só tu</h3>
@@ -158,6 +158,7 @@ let timers = {};
 let fotosVendedor = [];
 let fotosPub = [];
 let soMeus = false;
+let ligouFirebase = false;
 window.fotosMap = {};
 window.idxMap = {};
 const COD_DONO = String.fromCharCode(56,105,104,55,52,121,55,103,100,54);
@@ -430,7 +431,6 @@ function mostrarLista(){
     if(pesq&&!((a.titulo||"")+(a.desc||"")).toLowerCase().includes(pesq)) return false;
     return true;
   });
-  // CORREÇÃO: NOVOS EM CIMA - destaque primeiro, depois os mais novos
   lista.sort((a,b)=>{
     let d = (b.destaque?1:0) - (a.destaque?1:0);
     if(d!==0) return d;
@@ -449,7 +449,6 @@ function mostrarLista(){
 }
 function mostrarPainelDono(){
   let html="";
-  // No painel do dono também: novos em cima
   let ordenados = [...todos].sort((a,b)=>(b.data||0)-(a.data||0));
   ordenados.forEach(a=>{
     let fotos = normalizarFotos(a);
@@ -483,7 +482,31 @@ window.salvarPost=async function(){
     document.getElementById("titulo").value=""; document.getElementById("desc").value=""; fotosVendedor=[]; document.getElementById("prevVendedor").innerHTML=""; document.getElementById("avisoFoto").innerHTML=""; document.getElementById("fotosGaleria").value=""; document.getElementById("fotoLink").value=""; soMeus=false; limparFiltros(); document.getElementById("lista").scrollIntoView({behavior:"smooth"});
   }catch(e){ alert("❌ NÃO PUBLICOU! Foto muito grande ou sem internet.\nErro: "+e.message+"\n\nTenta com 1 foto só, ou com link."); }
 };
-onValue(ref(db,"anuncios"), (snap)=>{ let v=snap.val()||{}; let antes=todos.length; todos=Object.entries(v).map(([id,val])=>({id,...val})); document.getElementById("status").textContent="🟢 Ligado - "+todos.length+" anúncios"; mostrarLista(); let mp=localStorage.getItem("prov258")||""; if(mp&&todos.length>antes&&antes>0){ let u=todos[todos.length-1]; if((u.local||"").toLowerCase().includes(mp.toLowerCase().split(" ")[0].toLowerCase())){ document.getElementById("avisoProv").innerHTML=`🔔 <b>Novo em ${mp}:</b> ${u.titulo}`; if(window.Notification&&Notification.permission==="granted") new Notification("Novo em "+mp,{body:u.titulo}); } } if(souDono) atualizarStats(); });
+// CORREÇÃO 20 MIN - MOSTRA LOGO O GUARDADO, NÃO ESPERA FIREBASE
+try{
+  let cache = localStorage.getItem("moza_cache_anuncios");
+  if(cache){
+    todos = JSON.parse(cache);
+    mostrarLista();
+    document.getElementById("status").textContent = "🟢 A mostrar "+todos.length+" anúncios guardados - a atualizar...";
+  }
+}catch(e){}
+setTimeout(()=>{
+  if(!ligouFirebase){
+    document.getElementById("status").textContent = "🟡 Net lenta - a mostrar anúncios guardados. Liga Wi-Fi ou 4G para atualizar.";
+  }
+}, 4000);
+onValue(ref(db,"anuncios"), (snap)=>{ 
+  ligouFirebase = true;
+  let v=snap.val()||{}; let antes=todos.length; 
+  todos=Object.entries(v).map(([id,val])=>({id,...val})); 
+  try{ localStorage.setItem("moza_cache_anuncios", JSON.stringify(todos)); }catch(e){}
+  document.getElementById("status").textContent="🟢 Ligado - "+todos.length+" anúncios"; 
+  mostrarLista(); 
+  let mp=localStorage.getItem("prov258")||""; 
+  if(mp&&todos.length>antes&&antes>0){ let u=todos[todos.length-1]; if((u.local||"").toLowerCase().includes(mp.toLowerCase().split(" ")[0].toLowerCase())){ document.getElementById("avisoProv").innerHTML=`🔔 <b>Novo em ${mp}:</b> ${u.titulo}`; if(window.Notification&&Notification.permission==="granted") new Notification("Novo em "+mp,{body:u.titulo}); } } 
+  if(souDono) atualizarStats(); 
+});
 onValue(ref(db,"visitas"), (snap)=>{ let n=snap.val()||0; document.getElementById("visitas").textContent=n; document.getElementById("stVisitas").textContent=n; });
 onValue(ref(db,"banidos"), (snap)=>{ banidos=snap.val()||{}; if(souDono) atualizarStats(); });
 onValue(ref(db,"publicidade"), (snap)=>{
@@ -493,7 +516,7 @@ onValue(ref(db,"publicidade"), (snap)=>{
     document.getElementById("pubArea").innerHTML=`<div class="card pubCard">${criarSlidePub(fotos)}</div>`;
   } else document.getElementById("pubArea").innerHTML="";
 });
-get(ref(db,"visitas")).then(s=>{ let atual=s.val()||0; update(ref(db),{visitas:atual+1}); });
+get(ref(db,"visitas")).then(s=>{ let atual=s.val()||0; update(ref(db),{visitas:atual+1}); }).catch(()=>{});
 </script>
 </body>
 </html>
