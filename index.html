@@ -51,7 +51,7 @@ footer b{color:#fff;font-size:12px}
 <div><b id="stBanidos">0</b><small>Banidos</small></div>
 </div>
 <b>📢 PUBLICIDADE PAGA - Colocar Foto(s)</b>
-<small>Publicidade muda sozinha a cada 10s.</small>
+<small>Publicidade muda sozinha a cada 10s, sem mostrar texto.</small>
 <input id="pubTitulo" placeholder="Título da empresa">
 <input id="pubTexto" placeholder="Texto da publicidade">
 <button class="btnGaleria" onclick="document.getElementById('pubFotoFile').click()">📷 ESCOLHER FOTOS DA GALERIA - PUBLICIDADE</button>
@@ -157,6 +157,7 @@ function tempoAtras(data){
   if(dias < 30) return "🕒 Publicado há " + dias + " dia" + (dias>1?"s":"");
   return "🕒 Publicado há " + Math.floor(dias/30) + " mês(es)";
 }
+// PUBLICIDADE: MUDA SOZINHA A CADA 10s, SEM MOSTRAR DATA NEM CONTADOR
 function criarSlidePub(fotos){
   if(!fotos || fotos.length===0) return "";
   if(fotos.length===1) return `<img src="${fotos[0]}">`;
@@ -170,12 +171,11 @@ function criarSlidePub(fotos){
       let novo = document.getElementById("img_pub");
       if(!novo){ clearInterval(timers["pub"]); return; }
       novo.src = fotos[idx];
-      let dot = document.getElementById("dot_pub");
-      if(dot) dot.textContent = (idx+1) + " / " + fotos.length + " • muda sozinha a cada 10s";
     }, 10000);
   }, 100);
-  return `<div class="slideWrap"><img id="img_pub" src="${fotos[0]}"><div class="dots" id="dot_pub">1 / ${fotos.length} • muda sozinha a cada 10s</div></div>`;
+  return `<div class="slideWrap"><img id="img_pub" src="${fotos[0]}"></div>`;
 }
+// ANÚNCIO: SÓ MUDA QUANDO TOCAR NA FOTO OU NAS SETAS - MANTÉM DATA E SETAS
 function criarSlideAnuncio(idUnico, fotos){
   if(!fotos || fotos.length===0) return "";
   if(fotos.length===1) return `<img src="${fotos[0]}">`;
@@ -245,7 +245,7 @@ window.salvarPublicidade = async ()=>{
   let fotos = [...fotosPub, ...listaFotosDeTexto(document.getElementById("pubFotoLink").value)];
   if(!fotos.length){ alert("Escolhe fotos da galeria OU cola link."); return; }
   await set(ref(db,"publicidade"), { titulo, texto, fotos, foto: fotos[0], data: Date.now() });
-  alert("Publicidade salva com "+fotos.length+" foto(s)! Vai mudar sozinha a cada 10s.");
+  alert("Publicidade salva com "+fotos.length+" foto(s)! Vai mudar sozinha a cada 10s, sem mostrar data.");
 };
 window.removerPublicidade = async ()=>{ if(confirm("Tirar publicidade?")) await remove(ref(db,"publicidade")); };
 window.banirNumero = async ()=>{
@@ -346,7 +346,7 @@ onValue(ref(db,"publicidade"), (snap)=>{
   let p=snap.val();
   if(p){
     let fotos = (p.fotos && Array.isArray(p.fotos)) ? p.fotos : listaFotosDeTexto(p.foto||"");
-    document.getElementById("pubArea").innerHTML=`<div class="card" style="border:2px solid #facc15"><b>⭐ ${p.titulo||"Publicidade"}</b><p>${p.texto||""}</p><small>${tempoAtras(p.data)}</small>${criarSlidePub(fotos)}</div>`;
+    document.getElementById("pubArea").innerHTML=`<div class="card" style="border:2px solid #facc15"><b>⭐ ${p.titulo||"Publicidade"}</b><p>${p.texto||""}</p>${criarSlidePub(fotos)}</div>`;
   } else document.getElementById("pubArea").innerHTML="";
 });
 get(ref(db,"visitas")).then(s=>{ let atual=s.val()||0; update(ref(db),{visitas:atual+1}); });
