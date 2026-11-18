@@ -33,6 +33,9 @@ footer b{color:#fff;font-size:12px}
 .imgTocavel{cursor:pointer}
 .seta{position:absolute;top:45%;width:38px;height:38px;padding:0;border-radius:50%;background:rgba(0,0,0,.65);color:#fff;font-size:16px;display:flex;align-items:center;justify-content:center;z-index:2}
 .setaL{left:8px}.setaR{right:8px}
+/* PUBLICIDADE = SÓ FOTO, QUADRADO TODO CHEIO */
+.pubCard{padding:0!important;overflow:hidden;border:2px solid #facc15}
+.pubFotoCheia{width:100%!important;height:360px!important;object-fit:cover!important;display:block!important;margin:0!important;border-radius:10px!important}
 </style>
 </head>
 <body>
@@ -50,10 +53,8 @@ footer b{color:#fff;font-size:12px}
 <div><b id="stGostos">0</b><small>Gostos</small></div>
 <div><b id="stBanidos">0</b><small>Banidos</small></div>
 </div>
-<b>📢 PUBLICIDADE PAGA - Colocar Foto(s)</b>
-<small>Publicidade muda sozinha a cada 10s, sem mostrar texto.</small>
-<input id="pubTitulo" placeholder="Título da empresa">
-<input id="pubTexto" placeholder="Texto da publicidade">
+<b>📢 PUBLICIDADE PAGA - Só Foto</b>
+<small>Agora só mostra a foto, sem nome, sem texto, sem data.</small>
 <button class="btnGaleria" onclick="document.getElementById('pubFotoFile').click()">📷 ESCOLHER FOTOS DA GALERIA - PUBLICIDADE</button>
 <input type="file" id="pubFotoFile" accept="image/*" multiple style="display:none">
 <input id="pubFotoLink" placeholder="Ou cola links das fotos separados por vírgula (opcional)">
@@ -157,10 +158,10 @@ function tempoAtras(data){
   if(dias < 30) return "🕒 Publicado há " + dias + " dia" + (dias>1?"s":"");
   return "🕒 Publicado há " + Math.floor(dias/30) + " mês(es)";
 }
-// PUBLICIDADE: MUDA SOZINHA A CADA 10s, SEM MOSTRAR DATA NEM CONTADOR
+// PUBLICIDADE: SÓ FOTO, QUADRADO TODO CHEIO, SEM NOME, SEM TEXTO, SEM DATA
 function criarSlidePub(fotos){
   if(!fotos || fotos.length===0) return "";
-  if(fotos.length===1) return `<img src="${fotos[0]}">`;
+  if(fotos.length===1) return `<img class="pubFotoCheia" src="${fotos[0]}">`;
   setTimeout(()=>{
     let el = document.getElementById("img_pub");
     if(!el) return;
@@ -173,9 +174,8 @@ function criarSlidePub(fotos){
       novo.src = fotos[idx];
     }, 10000);
   }, 100);
-  return `<div class="slideWrap"><img id="img_pub" src="${fotos[0]}"></div>`;
+  return `<div class="slideWrap"><img class="pubFotoCheia" id="img_pub" src="${fotos[0]}"></div>`;
 }
-// ANÚNCIO: SÓ MUDA QUANDO TOCAR NA FOTO OU NAS SETAS - MANTÉM DATA E SETAS
 function criarSlideAnuncio(idUnico, fotos){
   if(!fotos || fotos.length===0) return "";
   if(fotos.length===1) return `<img src="${fotos[0]}">`;
@@ -240,12 +240,10 @@ window.pedirNot = async ()=>{ if("Notification" in window){ let r=await Notifica
 if(localStorage.getItem("prov258")){ document.getElementById("minhaProv").value=localStorage.getItem("prov258"); salvarProv(); }
 window.salvarPublicidade = async ()=>{
   if(!souDono){ alert("Só o dono pode fazer isso."); return; }
-  let titulo = document.getElementById("pubTitulo").value || "Publicidade";
-  let texto = document.getElementById("pubTexto").value || "";
   let fotos = [...fotosPub, ...listaFotosDeTexto(document.getElementById("pubFotoLink").value)];
   if(!fotos.length){ alert("Escolhe fotos da galeria OU cola link."); return; }
-  await set(ref(db,"publicidade"), { titulo, texto, fotos, foto: fotos[0], data: Date.now() });
-  alert("Publicidade salva com "+fotos.length+" foto(s)! Vai mudar sozinha a cada 10s, sem mostrar data.");
+  await set(ref(db,"publicidade"), { titulo: "", texto: "", fotos, foto: fotos[0], data: Date.now() });
+  alert("Publicidade salva com "+fotos.length+" foto(s)! Só foto, sem nome, sem texto.");
 };
 window.removerPublicidade = async ()=>{ if(confirm("Tirar publicidade?")) await remove(ref(db,"publicidade")); };
 window.banirNumero = async ()=>{
@@ -346,7 +344,7 @@ onValue(ref(db,"publicidade"), (snap)=>{
   let p=snap.val();
   if(p){
     let fotos = (p.fotos && Array.isArray(p.fotos)) ? p.fotos : listaFotosDeTexto(p.foto||"");
-    document.getElementById("pubArea").innerHTML=`<div class="card" style="border:2px solid #facc15"><b>⭐ ${p.titulo||"Publicidade"}</b><p>${p.texto||""}</p>${criarSlidePub(fotos)}</div>`;
+    document.getElementById("pubArea").innerHTML=`<div class="card pubCard">${criarSlidePub(fotos)}</div>`;
   } else document.getElementById("pubArea").innerHTML="";
 });
 get(ref(db,"visitas")).then(s=>{ let atual=s.val()||0; update(ref(db),{visitas:atual+1}); });
