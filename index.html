@@ -33,7 +33,6 @@ footer b{color:#fff;font-size:12px}
 .imgTocavel{cursor:pointer}
 .seta{position:absolute;top:45%;width:38px;height:38px;padding:0;border-radius:50%;background:rgba(0,0,0,.65);color:#fff;font-size:16px;display:flex;align-items:center;justify-content:center;z-index:2}
 .setaL{left:8px}.setaR{right:8px}
-/* PUBLICIDADE = SÓ FOTO, QUADRADO TODO CHEIO */
 .pubCard{padding:0!important;overflow:hidden;border:2px solid #facc15}
 .pubFotoCheia{width:100%!important;height:360px!important;object-fit:cover!important;display:block!important;margin:0!important;border-radius:10px!important}
 </style>
@@ -116,7 +115,7 @@ footer b{color:#fff;font-size:12px}
 <b>📜 REGRAS DO SITE</b><br>
 1. Proibido burla, anúncios falsos, pornografia, armas e drogas. Quem publicar é banido.<br>
 2. Preço e local devem ser verdadeiros.<br>
-3. Destaque e Publicidade são PAGOS. Quem quiser, fala no WhatsApp: <b style="color:#fff">83715054</b>. Sem pagamento, sem destaque. Só o dono ativa e só o dono tira.<br>
+3. Destaque e Publicidade são PAGOS. Quem quiser, fala no WhatsApp: <b style="color:#fff">833715054</b>. Sem pagamento, sem destaque. Só o dono ativa e só o dono tira.<br>
 4. Sem pagamento automático. Tudo é tratado direto com o dono.<br>
 5. Se um anúncio for denunciado 26 vezes, é apagado automaticamente.<br>
 6. Só o dono pode banir.<br><br>
@@ -126,7 +125,7 @@ footer b{color:#fff;font-size:12px}
 - Comprar: WhatsApp ou Ligar. Não mandes dinheiro antes de ver o produto.<br><br>
 <b>📞 APOIO / DÚVIDAS / PUBLICIDADES</b><br>
 WhatsApp / Chamadas: <b style="color:#fff">833715054 / 874193775</b><br>
-Destaque e Publicidade: <b style="color:#fff">83715054</b><br>
+Destaque e Publicidade: <b style="color:#fff">833715054</b><br>
 © 2026 Moza Anúncios - Moçambique.
 </footer>
 
@@ -136,7 +135,7 @@ import { getDatabase, ref, onValue, push, set, get, update, remove } from "https
 const firebaseConfig = { apiKey: "AIzaSyCiGTGw5YTfOrnprGfyjRFuaaqGyT3BbaQ", authDomain: "mozanucio258.firebaseapp.com", databaseURL: "https://mozanucio258-default-rtdb.firebaseio.com", projectId: "mozanucio258", storageBucket: "mozanucio258.firebasestorage.app", messagingSenderId: "329104089723", appId: "1:329104089723:web:98f5b782b7dbc5a42878de" };
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
-const MEU_WHATS = "25883715054";
+const MEU_WHATS = "258833715054";
 let todos = [];
 let banidos = {};
 let souDono = false;
@@ -158,7 +157,6 @@ function tempoAtras(data){
   if(dias < 30) return "🕒 Publicado há " + dias + " dia" + (dias>1?"s":"");
   return "🕒 Publicado há " + Math.floor(dias/30) + " mês(es)";
 }
-// PUBLICIDADE: SÓ FOTO, QUADRADO TODO CHEIO, SEM NOME, SEM TEXTO, SEM DATA
 function criarSlidePub(fotos){
   if(!fotos || fotos.length===0) return "";
   if(fotos.length===1) return `<img class="pubFotoCheia" src="${fotos[0]}">`;
