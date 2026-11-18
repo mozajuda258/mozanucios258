@@ -35,6 +35,9 @@ footer b{color:#fff;font-size:12px}
 .setaL{left:8px}.setaR{right:8px}
 .pubCard{padding:0!important;overflow:hidden;border:2px solid #facc15}
 .pubFotoCheia{width:100%!important;height:360px!important;object-fit:cover!important;display:block!important;margin:0!important;border-radius:10px!important}
+.meusBox{background:#e0f2fe;border:2px solid #0284c7}
+.avisoGrande{background:#fef3c7;border:2px solid #f59e0b;color:#92400e;padding:10px;border-radius:10px;font-weight:bold;margin-top:6px;font-size:13px}
+.avisoErro{background:#fee2e2;border:2px solid #ef4444;color:#991b1b;padding:10px;border-radius:10px;font-weight:bold;margin-top:6px;font-size:13px}
 </style>
 </head>
 <body>
@@ -53,9 +56,10 @@ footer b{color:#fff;font-size:12px}
 <div><b id="stBanidos">0</b><small>Banidos</small></div>
 </div>
 <b>📢 PUBLICIDADE PAGA - Só Foto</b>
-<small>Agora só mostra a foto, sem nome, sem texto, sem data.</small>
+<small>Só mostra a foto, sem nome, sem texto, sem data. Se a foto for grande, vai avisar.</small>
 <button class="btnGaleria" onclick="document.getElementById('pubFotoFile').click()">📷 ESCOLHER FOTOS DA GALERIA - PUBLICIDADE</button>
 <input type="file" id="pubFotoFile" accept="image/*" multiple style="display:none">
+<div id="avisoPub"></div>
 <input id="pubFotoLink" placeholder="Ou cola links das fotos separados por vírgula (opcional)">
 <button class="btn2" onclick="salvarPublicidade()">💾 SALVAR PUBLICIDADE COM FOTO(S)</button>
 <button class="btnRed" onclick="removerPublicidade()">🗑️ Tirar Publicidade</button>
@@ -90,22 +94,33 @@ footer b{color:#fff;font-size:12px}
 <input id="whats" placeholder="WhatsApp: 84xxxxxxx">
 <button class="btnGaleria" onclick="document.getElementById('fotosGaleria').click()">📷 ESCOLHER FOTOS DA GALERIA</button>
 <input type="file" id="fotosGaleria" accept="image/*" multiple style="display:none">
+<div id="avisoFoto"></div>
 <input id="fotoLink" placeholder="Ou cola links das fotos separados por vírgula (opcional)">
 <div id="prevVendedor" class="prev"></div>
-<small>📷 Toca na galeria OU cola link. Nos anúncios, toca na foto ou nas setas ◀ ▶ para ver as outras fotos.</small>
+<small>📷 Se a foto for grande, vai avisar. Foto ideal: menos de 1MB. Nos anúncios, toca na foto ou nas setas ◀ ▶ para ver as outras fotos.</small>
 <button onclick="salvarPost()">PUBLICAR AGORA</button>
 <button class="btn2" onclick="falarDestaque()">⭐ QUERO DESTAQUE PAGO - FALAR NO WHATSAPP</button>
 <small>⭐ Destaque = tu falas connosco, pagas, o dono ativa. Só o dono tira.</small>
 <div id="meuCodigo" style="font-size:12px;color:#0a7a3a;margin-top:8px;font-weight:bold"></div>
 </div>
 
+<div class="card meusBox" id="meusCard" style="display:none">
+<h3>📋 MEUS ANÚNCIOS - Já publicaste</h3>
+<div id="meusLista" style="font-size:13px"></div>
+<button class="btn3" onclick="mostrarMeus()">👁️ VER SÓ OS MEUS ANÚNCIOS</button>
+<button class="btn3" onclick="limparFiltros()">👁️ VER TODOS OS ANÚNCIOS</button>
+</div>
+
 <div class="card">
 <h3>🔍 Filtros</h3>
 <div class="filtros">
 <select id="fTipo" onchange="filtros()"><option value="">Todos tipos</option><option>Venda</option><option>Aluguer</option><option>Serviço</option><option>Emprego</option></select>
-<select id="fLocal" onchange="filtros()"><option value="">Todos locais</option><option>Maputo</option><option>Matola</option><option>Beira</option><option>Nampula</option></select>
+<select id="fLocal" onchange="filtros()"><option value="">Todos locais</option><option>Maputo</option><option>Matola</option><option>Beira</option><option>Nampula</option><option>Gaza</option><option>Inhambane</option><option>Sofala</option><option>Manica</option><option>Tete</option><option>Zambézia</option><option>Niassa</option><option>Cabo Delgado</option></select>
 </div>
 <input id="pesquisa" oninput="filtros()" placeholder="Pesquisar...">
+<button class="btn3" onclick="limparFiltros()">🔄 LIMPAR FILTROS - VER TODOS</button>
+<button class="btn3" onclick="location.reload(true)">🔄 FORÇAR RECARREGAR - VER TODOS DE NOVO</button>
+<div id="contagem" style="text-align:center;font-weight:bold;color:#0a7a3a;margin-top:6px"></div>
 </div>
 
 <div id="lista">A carregar anúncios...</div>
@@ -142,9 +157,59 @@ let souDono = false;
 let timers = {};
 let fotosVendedor = [];
 let fotosPub = [];
+let soMeus = false;
 window.fotosMap = {};
 window.idxMap = {};
 const COD_DONO = String.fromCharCode(56,105,104,55,52,121,55,103,100,54);
+// AVISAR SE FOTO FOR GRANDE
+function tamanhoMB(bytes){ return (bytes / (1024*1024)).toFixed(1) + " MB"; }
+function verificarFotosGrandes(files, avisoId){
+  let el = document.getElementById(avisoId);
+  if(!el) return { bloqueado:false, grandes:[] };
+  let grandes = [];
+  let bloqueado = false;
+  let html = "";
+  for(let f of files){
+    let mb = f.size / (1024*1024);
+    if(mb > 8){
+      bloqueado = true;
+      html += `<div class="avisoErro">❌ FOTO DEMASIADO GRANDE: ${f.name} tem ${tamanhoMB(f.size)}.<br>Escolhe outra foto mais leve, menos de 8MB. Esta foto NÃO vai publicar.</div>`;
+    } else if(mb > 1){
+      grandes.push(f.name);
+      html += `<div class="avisoGrande">⚠️ FOTO GRANDE: ${f.name} tem ${tamanhoMB(f.size)}.<br>Vou comprimir para ficar leve e publicar. Se demorar, espera.</div>`;
+    }
+  }
+  el.innerHTML = html;
+  if(bloqueado){
+    alert("❌ FOTO DEMASIADO GRANDE!\n\nUma das fotos tem mais de 8MB e NÃO vai publicar.\n\nEscolhe outra foto mais leve, ou tira print da foto para ficar pequena.");
+  } else if(grandes.length>0){
+    alert("⚠️ FOTO GRANDE!\n\n" + grandes.map(n=>"• "+n).join("\n") + "\n\nEsta foto é grande, vou comprimir para publicar. Espera um pouco.");
+  } else {
+    el.innerHTML = "";
+  }
+  return { bloqueado, grandes };
+}
+async function comprimirFoto(file){
+  return new Promise((res)=>{
+    let reader = new FileReader();
+    reader.onload = (e)=>{
+      let img = new Image();
+      img.onload = ()=>{
+        let max = 800;
+        let w = img.width, h = img.height;
+        if(w > max){ h = Math.round(h * max / w); w = max; }
+        if(h > max){ w = Math.round(w * max / h); h = max; }
+        let canvas = document.createElement("canvas");
+        canvas.width = w; canvas.height = h;
+        canvas.getContext("2d").drawImage(img,0,0,w,h);
+        res(canvas.toDataURL("image/jpeg", 0.65));
+      };
+      img.onerror = ()=>res(e.target.result);
+      img.src = e.target.result;
+    };
+    reader.readAsDataURL(file);
+  });
+}
 function tempoAtras(data){
   if(!data) return "";
   let diff = Date.now() - data;
@@ -194,21 +259,69 @@ window.trocarFotoManual = (idUnico, dir)=>{
 };
 function listaFotosDeTexto(texto){ if(!texto) return []; return texto.split(",").map(s=>s.trim()).filter(s=>s.length>5); }
 function normalizarFotos(a){ if(a.fotos && Array.isArray(a.fotos) && a.fotos.length) return a.fotos; if(a.foto) return listaFotosDeTexto(a.foto); return []; }
+function meusIds(){
+  let ids = [];
+  for(let k in localStorage){ if(k.startsWith("vend_")) ids.push(k.replace("vend_","")); }
+  return ids;
+}
+function atualizarMeus(){
+  let ids = meusIds();
+  let meus = todos.filter(a=>ids.includes(a.id));
+  if(meus.length>0){
+    document.getElementById("meusCard").style.display="block";
+    document.getElementById("meusLista").innerHTML = `✅ Já publicaste <b>${meus.length} anúncio(s)</b> neste telefone:<br>` + meus.map(a=>`• ${a.titulo} - ${a.preco} MZN - ${a.vendido?"✅ VENDIDO":"🟢 ATIVO"}`).join("<br>");
+  } else {
+    document.getElementById("meusCard").style.display="none";
+  }
+}
+window.mostrarMeus = ()=>{ soMeus = true; mostrarLista(); };
+window.limparFiltros = ()=>{
+  soMeus = false;
+  document.getElementById("fTipo").value="";
+  document.getElementById("fLocal").value="";
+  document.getElementById("pesquisa").value="";
+  mostrarLista();
+};
+function localCorresponde(localAnuncio, filtro){
+  if(!filtro) return true;
+  let a = (localAnuncio||"").toLowerCase();
+  let f = filtro.toLowerCase();
+  if(a.includes(f)) return true;
+  if(f==="maputo" && a.includes("maputo")) return true;
+  if(f==="maputo" && a.includes("matola")) return true;
+  return false;
+}
 document.getElementById("fotosGaleria").addEventListener("change", async (e)=>{
+  let check = verificarFotosGrandes(e.target.files, "avisoFoto");
+  if(check.bloqueado){
+    e.target.value = "";
+    document.getElementById("prevVendedor").innerHTML = "";
+    fotosVendedor = [];
+    return;
+  }
   fotosVendedor = [];
   let html = "";
+  document.getElementById("prevVendedor").innerHTML = "⏳ A comprimir fotos...";
   for(let f of e.target.files){
-    let b64 = await new Promise(res=>{ let r=new FileReader(); r.onload=ev=>res(ev.target.result); r.readAsDataURL(f); });
+    let b64 = await comprimirFoto(f);
     fotosVendedor.push(b64);
     html += `<img src="${b64}">`;
   }
-  document.getElementById("prevVendedor").innerHTML = html + (fotosVendedor.length ? `<br><small>✅ ${fotosVendedor.length} foto(s) da galeria.</small>` : "");
+  document.getElementById("prevVendedor").innerHTML = html + (fotosVendedor.length ? `<br><small>✅ ${fotosVendedor.length} foto(s) pronta(s) a publicar.</small>` : "");
 });
 document.getElementById("pubFotoFile").addEventListener("change", async (e)=>{
+  let check = verificarFotosGrandes(e.target.files, "avisoPub");
+  if(check.bloqueado){
+    e.target.value = "";
+    document.getElementById("prevPub").innerHTML = "";
+    fotosPub = [];
+    return;
+  }
   fotosPub = [];
   let html = "";
+  document.getElementById("prevPub").innerHTML = "⏳ A comprimir...";
   for(let f of e.target.files){
-    let b64 = await new Promise(res=>{ let r=new FileReader(); r.onload=ev=>res(ev.target.result); r.readAsDataURL(f); });
+    let b64 = await comprimirFoto(f);
     fotosPub.push(b64);
     html += `<img src="${b64}">`;
   }
@@ -240,8 +353,10 @@ window.salvarPublicidade = async ()=>{
   if(!souDono){ alert("Só o dono pode fazer isso."); return; }
   let fotos = [...fotosPub, ...listaFotosDeTexto(document.getElementById("pubFotoLink").value)];
   if(!fotos.length){ alert("Escolhe fotos da galeria OU cola link."); return; }
-  await set(ref(db,"publicidade"), { titulo: "", texto: "", fotos, foto: fotos[0], data: Date.now() });
-  alert("Publicidade salva com "+fotos.length+" foto(s)! Só foto, sem nome, sem texto.");
+  try{
+    await set(ref(db,"publicidade"), { titulo: "", texto: "", fotos, foto: fotos[0], data: Date.now() });
+    alert("Publicidade salva com "+fotos.length+" foto(s)! Só foto, sem nome, sem texto.");
+  }catch(e){ alert("❌ NÃO PUBLICOU publicidade. Erro: "+e.message); }
 };
 window.removerPublicidade = async ()=>{ if(confirm("Tirar publicidade?")) await remove(ref(db,"publicidade")); };
 window.banirNumero = async ()=>{
@@ -258,14 +373,18 @@ window.donoFoto = async (id)=>{
   let inp = document.createElement("input");
   inp.type = "file"; inp.accept = "image/*"; inp.multiple = true;
   inp.onchange = async ()=>{
+    for(let f of inp.files){
+      if(f.size > 8*1024*1024){ alert("❌ FOTO DEMASIADO GRANDE: "+f.name+" tem "+tamanhoMB(f.size)+". Escolhe outra mais leve."); return; }
+      if(f.size > 1*1024*1024){ alert("⚠️ FOTO GRANDE: "+f.name+" tem "+tamanhoMB(f.size)+". Vou comprimir."); }
+    }
     let novas = [];
     for(let f of inp.files){
-      let b64 = await new Promise(res=>{ let r=new FileReader(); r.onload=ev=>res(ev.target.result); r.readAsDataURL(f); });
+      let b64 = await comprimirFoto(f);
       novas.push(b64);
     }
     if(!novas.length) return;
     await update(ref(db,"anuncios/"+id), { fotos: novas, foto: novas[0] });
-    alert("Foto(s) do destaque trocada(s)! "+novas.length+" foto(s). Agora só muda quando tocar ou na seta.");
+    alert("Foto(s) do destaque trocada(s)! "+novas.length+" foto(s).");
   };
   inp.click();
 };
@@ -297,23 +416,31 @@ window.souVendedor = async (id)=>{
   if(localStorage.getItem("vend_"+id)){ document.getElementById("ctrl_"+id)?.classList.remove("hidden"); return; }
   let cod=prompt("Coloca teu código de vendedor:"); if(!cod) return;
   let s=await get(ref(db,"anuncios/"+id));
-  if(s.val()?.vendorKey===cod){ localStorage.setItem("vend_"+id,cod); document.getElementById("ctrl_"+id)?.classList.remove("hidden"); }
+  if(s.val()?.vendorKey===cod){ localStorage.setItem("vend_"+id,cod); document.getElementById("ctrl_"+id)?.classList.remove("hidden"); atualizarMeus(); }
   else alert("Código errado.");
 };
 window.editarAnuncio = async (id)=>{ let s=await get(ref(db,"anuncios/"+id)); let a=s.val(); let np=prompt("Novo preço:",a.preco); if(np===null) return; let nd=prompt("Nova descrição:",a.desc||""); if(nd===null) return; await update(ref(db,"anuncios/"+id),{preco:np,desc:nd}); alert("Atualizado!"); };
 window.apagarAnuncio = async (id)=>{ if(confirm("Apagar?")) await remove(ref(db,"anuncios/"+id)); };
 window.marcarVendido = async (id)=>{ await update(ref(db,"anuncios/"+id),{vendido:true}); alert("Marcado como VENDIDO!"); };
 function mostrarLista(){
-  let tipo=document.getElementById("fTipo").value; let local=document.getElementById("fLocal").value.toLowerCase(); let pesq=document.getElementById("pesquisa").value.toLowerCase();
-  let lista=todos.filter(a=>{ if(tipo&&a.tipoNeg!==tipo) return false; if(local&&!(a.local||"").toLowerCase().includes(local)) return false; if(pesq&&!((a.titulo||"")+(a.desc||"")).toLowerCase().includes(pesq)) return false; return true; });
+  let tipo=document.getElementById("fTipo").value; let local=document.getElementById("fLocal").value; let pesq=document.getElementById("pesquisa").value.toLowerCase();
+  let lista=todos.filter(a=>{
+    if(soMeus && !meusIds().includes(a.id)) return false;
+    if(tipo&&a.tipoNeg!==tipo) return false;
+    if(!localCorresponde(a.local, local)) return false;
+    if(pesq&&!((a.titulo||"")+(a.desc||"")).toLowerCase().includes(pesq)) return false;
+    return true;
+  });
   lista.sort((a,b)=>(b.destaque?1:0)-(a.destaque?1:0));
-  let html=""; if(lista.length===0) html="<p style='text-align:center;color:#fff'>Nenhum anúncio ainda.</p>";
+  document.getElementById("contagem").textContent = `A mostrar ${lista.length} de ${todos.length} anúncios ${soMeus?"(só os teus)":"- TODOS têm de aparecer aqui"}`;
+  let html=""; if(lista.length===0) html="<p style='text-align:center;color:#fff'>Nenhum anúncio. Carrega em LIMPAR FILTROS para ver todos.</p>";
   lista.forEach(a=>{
     let desbloqueado = souDono || localStorage.getItem("vend_"+a.id);
     let fotos = normalizarFotos(a);
     html+=`<div class="card ${a.destaque?"destaque":""} ${a.vendido?"vendido":""}">${a.destaque?'<span class="badge">⭐ DESTAQUE PAGO</span>':""} ${a.vendido?'<span class="badgeV">✅ VENDIDO</span>':""}<br><b>${a.titulo||""}</b><br><small>${a.tipoNeg||""} • ${a.local||""} • ${a.nome||""}</small><br><small>${tempoAtras(a.data)}</small><p>${a.desc||""}</p><b style="color:#0a7a3a">${a.preco||""} MZN</b>${criarSlideAnuncio("an_"+a.id, fotos)}<div class="row"><button class="btn2" onclick="window.open('https://wa.me/258${String(a.whats||"").replace(/\D/g,"").replace(/^258/,"")}')">💬 WhatsApp</button><button class="btn3" onclick="window.open('tel:+258${String(a.whats||"").replace(/\D/g,"").replace(/^258/,"")}')">📞 Ligar</button><button class="btn3" onclick="partilhar('${(a.titulo||"").replace(/'/g,"")}','${a.preco||""}')">↗️ Partilhar</button><button class="btn3" onclick="gostar('${a.id}')">❤️ ${a.gostos||0}</button><button class="btn3" onclick="denunciar('${a.id}')">🚩 Denunciar</button><button class="btn3" onclick="souVendedor('${a.id}')">🔑 Sou o Vendedor</button></div><div id="ctrl_${a.id}" class="${desbloqueado?"":"hidden"}" style="margin-top:8px"><div class="row"><button onclick="editarAnuncio('${a.id}')">✏️ Editar</button><button class="btnRed" onclick="apagarAnuncio('${a.id}')">🗑️ Apagar</button><button class="btnGray" onclick="marcarVendido('${a.id}')">✅ Vendido</button></div></div></div>`;
   });
   document.getElementById("lista").innerHTML=html;
+  atualizarMeus();
   if(souDono) mostrarPainelDono();
 }
 function mostrarPainelDono(){
@@ -325,15 +452,30 @@ function mostrarPainelDono(){
   document.getElementById("listaDono").innerHTML=html||"Sem anúncios.";
   atualizarStats();
 }
-window.filtros=mostrarLista;
+window.filtros=()=>{ soMeus=false; mostrarLista(); };
 window.salvarPost=async function(){
   let titulo=document.getElementById("titulo").value.trim(); if(!titulo){ alert("Escreve o título"); return; }
   let whatsRaw=document.getElementById("whats").value.replace(/\D/g,"").replace(/^258/,"");
   if(banidos[whatsRaw]){ alert("Este número está banido. Fala com o dono: 833715054"); return; }
+  let duplicado = todos.find(a=> String(a.whats||"").replace(/\D/g,"").replace(/^258/,"")===whatsRaw && (a.titulo||"").trim().toLowerCase()===titulo.toLowerCase());
+  if(duplicado){
+    alert("⛔ JÁ PUBLICASTE este anúncio!\n\nTítulo: "+duplicado.titulo+"\nJá está no site. Não precisas publicar de novo.");
+    document.getElementById("meusCard").style.display="block";
+    document.getElementById("lista").scrollIntoView({behavior:"smooth"});
+    return;
+  }
+  let jaTemMesmoNumero = todos.find(a=> String(a.whats||"").replace(/\D/g,"").replace(/^258/,"")===whatsRaw);
+  if(jaTemMesmoNumero && !confirm("⚠️ Já tens um anúncio com este número:\n"+jaTemMesmoNumero.titulo+"\n\nQueres mesmo publicar outro anúncio novo?")) return;
   let vendorKey=Math.random().toString(36).slice(2,8).toUpperCase();
   let fotos = [...fotosVendedor, ...listaFotosDeTexto(document.getElementById("fotoLink").value)];
   let obj={ nome:document.getElementById("nomeV").value, titulo, desc:document.getElementById("desc").value, preco:document.getElementById("preco").value, local:document.getElementById("local").value, tipoNeg:document.getElementById("tipoN").value, whats:document.getElementById("whats").value, foto: fotos[0]||"", fotos, destaque:false, vendido:false, gostos:0, denuncias:0, vendorKey, data:Date.now() };
-  try{ let nr=push(ref(db,"anuncios")); await set(nr,obj); localStorage.setItem("vend_"+nr.key,vendorKey); document.getElementById("meuCodigo").innerHTML="🔑 Teu código: <b>"+vendorKey+"</b> - Tira print!"; alert("Publicado! Teu código é: "+vendorKey); document.getElementById("titulo").value=""; document.getElementById("desc").value=""; fotosVendedor=[]; document.getElementById("prevVendedor").innerHTML=""; document.getElementById("fotosGaleria").value=""; document.getElementById("fotoLink").value=""; }catch(e){ alert("Erro: "+e.message); }
+  try{
+    let nr=push(ref(db,"anuncios")); await set(nr,obj);
+    localStorage.setItem("vend_"+nr.key,vendorKey);
+    document.getElementById("meuCodigo").innerHTML="✅ JÁ PUBLICASTE! Teu código: <b>"+vendorKey+"</b> - Tira print! O teu anúncio já está em baixo, toda gente pode ver.";
+    alert("✅ PUBLICADO! Já publicaste!\n\nTeu código é: "+vendorKey+"\n\nToda gente já pode ver o teu anúncio. Não precisas publicar de novo.");
+    document.getElementById("titulo").value=""; document.getElementById("desc").value=""; fotosVendedor=[]; document.getElementById("prevVendedor").innerHTML=""; document.getElementById("avisoFoto").innerHTML=""; document.getElementById("fotosGaleria").value=""; document.getElementById("fotoLink").value=""; soMeus=false; limparFiltros(); document.getElementById("lista").scrollIntoView({behavior:"smooth"});
+  }catch(e){ alert("❌ NÃO PUBLICOU! Foto muito grande ou sem internet.\nErro: "+e.message+"\n\nTenta com 1 foto só, ou com link."); }
 };
 onValue(ref(db,"anuncios"), (snap)=>{ let v=snap.val()||{}; let antes=todos.length; todos=Object.entries(v).map(([id,val])=>({id,...val})); document.getElementById("status").textContent="🟢 Ligado - "+todos.length+" anúncios"; mostrarLista(); let mp=localStorage.getItem("prov258")||""; if(mp&&todos.length>antes&&antes>0){ let u=todos[todos.length-1]; if((u.local||"").toLowerCase().includes(mp.toLowerCase().split(" ")[0].toLowerCase())){ document.getElementById("avisoProv").innerHTML=`🔔 <b>Novo em ${mp}:</b> ${u.titulo}`; if(window.Notification&&Notification.permission==="granted") new Notification("Novo em "+mp,{body:u.titulo}); } } if(souDono) atualizarStats(); });
 onValue(ref(db,"visitas"), (snap)=>{ let n=snap.val()||0; document.getElementById("visitas").textContent=n; document.getElementById("stVisitas").textContent=n; });
